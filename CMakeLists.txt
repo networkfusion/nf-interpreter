@@ -12,7 +12,7 @@ if (BUILD_VERBOSE)
     set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE) # debug helper
 endif()
 
-# the following prevents launchin a build in the source tree
+# the following prevents launching a build in the source tree
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 
@@ -38,6 +38,29 @@ include(binutils.common)
 include(binutils.ESP32)
 
 nf_check_path_limits()
+
+if( TARGET_SERIES STREQUAL "RP2040")
+    Set(RP2040_BUILD TRUE)
+endif()
+
+if( RP2040_BUILD)
+
+   # NOTE:
+   # For later research
+   #
+   # For some reason
+   # pico_sdk_init.cmake must be included before the project declaration below
+   #
+   # If not, the RP2040 CMake fails for adding the .uf2 file 
+   # with this error
+   # 'MSVC_RUNTIME_LIBRARY value 'MultiThreadedDebugDLL' not known for this ASM compiler'
+   #
+   # The error is not seen if pico_sdk_init.cmake is before the project declaration
+   #
+    set(PICO_SDK_PATH ${PICOSDK_SOURCE_FOLDER})
+    include(${PICO_SDK_PATH}/pico_sdk_init.cmake)
+
+endif()
 
 ######################################################
 # set build type to release if not specified otherwise
@@ -97,7 +120,13 @@ endif()
 if(NOT BUILD_VERSION)
     set(BUILD_VERSION 0.0.0.0)
 endif()
+
+
 project(nanoFramework VERSION ${BUILD_VERSION} LANGUAGES C CXX ASM)
+
+
+
+
 
 set(NANOBOOTER_PROJECT_NAME "nanoBooter")
 set(NANOCLR_PROJECT_NAME "nanoCLR")
@@ -827,7 +856,13 @@ set(BASE_PATH_FOR_PLATFORM ${CMAKE_CURRENT_SOURCE_DIR}/targets/${RTOS})
 
 #######################
 # FreeRTOS or AzureRTOS
-if(RTOS_FREERTOS_CHECK OR RTOS_AZURERTOS_CHECK)
+
+
+if(RP2040_BUILD)
+   
+add_subdirectory(${PROJECT_SOURCE_DIR}/targets/AzureRTOS/RaspberryPi/${TARGET_BOARD})
+
+elseif(RTOS_FREERTOS_CHECK OR RTOS_AZURERTOS_CHECK)
 
     add_subdirectory(${BASE_PATH_FOR_PLATFORM})
 
