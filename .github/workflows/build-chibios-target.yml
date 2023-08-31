@@ -54,7 +54,7 @@ jobs:
           runCmd: |
             # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
             cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=MinSizeRel
-            cmake -G Ninja build
+            cmake --build build #-j4
 
       - name: Upload MinSizeRel artifact
         uses: actions/upload-artifact@v3
@@ -76,7 +76,7 @@ jobs:
           runCmd: |
             # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
             cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=Debug
-            cmake -G Ninja build
+            cmake --build build #-j4 # -v 
 
       - name: Upload Debug artifact
         uses: actions/upload-artifact@v3
