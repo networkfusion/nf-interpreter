@@ -29,6 +29,8 @@ jobs:
             # required fixes for current devcontainer
             pushd .devcontainer
             # target the chibios container for a quicker build
+            # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.ChibiOS"|g' devcontainer.json
+            # But we actually require a change to it, so we target the source.
             sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.ChibiOS"|g' devcontainer.json
             # remove unsupported commands
             sed -i -- 's|"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|//"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|g' devcontainer.json
