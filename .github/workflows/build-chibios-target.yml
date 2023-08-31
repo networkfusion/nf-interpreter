@@ -42,11 +42,16 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      #   uses: devcontainers/ci@v0.3
+      #   with:
+      #     # The ChibiOS container
+      #     imageName: ghcr.io/nanoframework/dev-container-chibios
+      #     push: never
+
       - name: Build Device MinSizeRel Firmware
         uses: devcontainers/ci@v0.3
         with:
           # The ChibiOS container
-          imageName: ghcr.io/nanoframework/dev-container-chibios
           cacheFrom: ghcr.io/nanoframework/dev-container-chibios
           push: never
           runCmd: |
