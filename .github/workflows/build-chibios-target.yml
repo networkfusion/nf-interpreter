@@ -42,7 +42,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Device Firmware
+      - name: Build Device MinSizeRel Firmware
         uses: devcontainers/ci@v0.3
         with:
           # The ChibiOS container
@@ -52,12 +52,34 @@ jobs:
           runCmd: |
             # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
             cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=MinSizeRel
-            cmake --build build -v -j4
+            cmake --build build -j4
 
-      - name: Upload artifact
+      - name: Upload MinSizeRel artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Firmware
+          name: Firmware MinSizeRel
+          path: |
+            ./build/*.map
+            ./build/*.elf
+            ./build/*.hex
+            ./build/*.bin
+            ./build/*.dfu
+
+      - name: Build Device Debug Firmware
+        uses: devcontainers/ci@v0.3
+        with:
+          # The ChibiOS container
+          cacheFrom: ghcr.io/nanoframework/dev-container-chibios
+          push: never
+          runCmd: |
+            # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
+            cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=Debug
+            cmake --build build -j4 # -v 
+
+      - name: Upload Debug artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Firmware Debug
           path: |
             ./build/*.map
             ./build/*.elf
