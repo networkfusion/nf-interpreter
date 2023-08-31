@@ -1,0 +1,66 @@
+name: Build for a ChibiOS target
+
+on:
+  push:
+  pull_request:
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+jobs:
+  build-target:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup config
+        run: |
+            # Apply config templates
+            pushd config
+            mv user-prefs.TEMPLATE.json user-prefs.json
+            mv user-tools-repos.TEMPLATE.json user-tools-repos.json
+            sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+            popd
+
+            # required fixes for current devcontainer
+            pushd .devcontainer
+            # target the chibios container for a quicker build
+            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.ChibiOS"|g' devcontainer.json
+            # remove unsupported commands
+            sed -i -- 's|"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|//"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|g' devcontainer.json
+            sed -i -- 's|"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind"|//"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind",|g' devcontainer.json
+            popd
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Device Firmware
+        uses: devcontainers/ci@v0.3
+        with:
+          # The ChibiOS container
+          imageName: ghcr.io/nanoframework/dev-container-chibios
+          cacheFrom: ghcr.io/nanoframework/dev-container-chibios
+          push: never
+          runCmd: |
+            # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
+            cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=MinSizeRel
+            cmake --build build -v -j4
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Firmware
+          path: |
+            ./build/*.map
+            ./build/*.elf
+            ./build/*.hex
+            ./build/*.bin
+            ./build/*.dfu
