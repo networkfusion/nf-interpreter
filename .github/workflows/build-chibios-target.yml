@@ -12,8 +12,8 @@ jobs:
   build-target:
     strategy:
       matrix:
-        target: [ST_STM32F769I_DISCOVERY, ORGPAL_THREE]
-        build-type: [MinSizeRel, Debug]
+        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE]
+        # build-type: [MinSizeRel, Debug]
 
     runs-on: ubuntu-latest
 
@@ -73,24 +73,24 @@ jobs:
             ./build/*.bin
             ./build/*.dfu
 
-      - name: Build Device Debug Firmware
-        uses: devcontainers/ci@v0.3
-        with:
-          # The ChibiOS container
-          cacheFrom: ghcr.io/nanoframework/dev-container-chibios
-          push: never
-          runCmd: |
-            # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
-            cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=Debug
-            cmake --build build
+      # - name: Build Device Debug Firmware
+      #   uses: devcontainers/ci@v0.3
+      #   with:
+      #     # The ChibiOS container
+      #     cacheFrom: ghcr.io/nanoframework/dev-container-chibios
+      #     push: never
+      #     runCmd: |
+      #       # TODO: if we want to improve: https://code.visualstudio.com/remote/advancedcontainers/environment-variables
+      #       cmake --preset=ST_STM32F769I_DISCOVERY -DCMAKE_BUILD_TYPE=Debug
+      #       cmake --build build
 
-      - name: Upload Debug artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Firmware Debug
-          path: |
-            ./build/*.map
-            ./build/*.elf
-            ./build/*.hex
-            ./build/*.bin
-            ./build/*.dfu
+      # - name: Upload Debug artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: Firmware Debug
+      #     path: |
+      #       ./build/*.map
+      #       ./build/*.elf
+      #       ./build/*.hex
+      #       ./build/*.bin
+      #       ./build/*.dfu
