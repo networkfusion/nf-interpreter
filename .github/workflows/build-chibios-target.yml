@@ -15,13 +15,8 @@ jobs:
       matrix:
         # Note: The F091RC debug build is currently broken.
         # and in our case, we only want to build for the targets we use.
-        [target: ST_STM32F769I_DISCOVERY, build-type: MinSizeRel]
-        [target: ST_STM32F769I_DISCOVERY, build-type: Debug]
-        [target: ORGPAL_PALTHREE, build-type: MinSizeRel]
-        [target: ORGPAL_PALTHREE, build-type: Debug]
-
-        #ORGPAL_PALTHREE] #, ST_STM32F429I_DISCOVERY, ST_NUCLEO64_F091RC]
-        # [, ] # , RTM]
+        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE] #, ST_STM32F429I_DISCOVERY, ST_NUCLEO64_F091RC]
+        build-type: [MinSizeRel, Debug] # , RTM]
 
     runs-on: ubuntu-latest
 
