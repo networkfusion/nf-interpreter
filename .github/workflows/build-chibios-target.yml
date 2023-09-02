@@ -13,9 +13,11 @@ jobs:
     strategy:
       fail-fast: false # continues to run other targets in the matrix, even if one fails.
       matrix:
-        # Note that the F091RC debug build is currently broken.
+        # Note: The F091RC debug build is currently broken.
+        # and in our case, we only want to build for the targets we use.
         target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE] #, ST_STM32F429I_DISCOVERY, ST_NUCLEO64_F091RC]
-        build-type: [MinSizeRel, Debug] # , RTM]
+        include:
+          - build-type: [MinSizeRel, Debug] # , RTM]
 
     runs-on: ubuntu-latest
 
@@ -24,29 +26,32 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup ubuntu
+      - name: Setup devcontainer configuration
         run: |
-          sudo apt-get update
-          sudo apt-get install -y
+            # Apply config templates for devcontainer
 
-      - name: Setup config
-        run: |
-            # Apply config templates
+            # Move into the config directory
             pushd config
+            # Rename the templates
             mv user-prefs.TEMPLATE.json user-prefs.json
             mv user-tools-repos.TEMPLATE.json user-tools-repos.json
+            # Adjust the file content for a devcontainer
             sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+            # Move out of the config directory
             popd
 
+      - name: Adjust devcontainer.json (ChibiOS source)
+        run: |
             # required fixes for current devcontainer
+            # Move into the .devcontainer directory
             pushd .devcontainer
-            # target the chibios container for a quicker build
+            # We could target the chibios container for a quicker build
             # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.ChibiOS"|g' devcontainer.json
-            # But we actually require a change to it, so we target the source (which takes a little longer).
+            # But we actually require a change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
             sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.ChibiOS"|g' devcontainer.json
-            # remove unsupported commands
-            # sed -i -- 's|"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|//"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|g' devcontainer.json
+            # For the CI, we need to remove the unsupported (azure cli) mount directive.
             sed -i -- 's|"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind"|//"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind",|g' devcontainer.json
+            # Move out of the .devcontainer directory
             popd
 
       - name: Login to GitHub Container Registry
