@@ -1,4 +1,4 @@
-name: Build for ChibiOS
+name: Devcontainer build for ChibiOS targets
 
 on:
   push:
@@ -11,8 +11,9 @@ on:
 jobs:
   build-target:
     strategy:
+      fail-fast: false # continues to run other targets in the matrix, even if one fails.
       matrix:
-        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE, ST_NUCLEO64_F091RC, ST_STM32F429I_DISCOVERY]
+        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE, ST_STM32F429I_DISCOVERY, ST_NUCLEO64_F091RC]
         build-type: [MinSizeRel, Debug]
 
     runs-on: ubuntu-latest
