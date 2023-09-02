@@ -12,7 +12,7 @@ jobs:
   build-target:
     strategy:
       matrix:
-        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE] # No usable version of libssl was found
+        target: [ST_STM32F769I_DISCOVERY, ORGPAL_PALTHREE, ST_NUCLEO64_F091RC, ST_STM32F429I_DISCOVERY]
         build-type: [MinSizeRel, Debug]
 
     runs-on: ubuntu-latest
