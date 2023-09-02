@@ -1,0 +1,46 @@
+name: Create Rolling Release
+
+on: [push, pull_request]
+
+on:
+  push:
+  pull_request:
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+jobs:
+  update-rolling-release:
+    runs-on: ubuntu-latest
+    needs: build-target
+
+      # Download the current build artifacts.
+      - uses: actions/download-artifact@v3
+        with:
+          name: my-artifact
+          path: path/to/artifact
+
+      - name: Delete rolling-pre-release tag and release
+        uses: dev-drprasad/delete-tag-and-release@v1.0
+        if: github.ref == 'refs/heads/stm32f7cache-trials'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: rolling-pre-release
+        continue-on-error: true
+
+      # Update a rolling pre-release so that users do not need to be logged in to download the latest firmware.
+      - name: Upload rolling pre-release
+        uses: softprops/action-gh-release@v0.1.15
+        if: github.ref == 'refs/heads/stm32f7cache-trials'
+        with:
+          name: Rolling pre-release Firmware ${{ matrix.target }}-${{ matrix.build-type }}
+          body: Rolling pre-release built from latest commit on `pre-release` branch.
+          tag_name: rolling-pre-release
+          files: |
+            ./build/*.map
+            ./build/*.elf
+            ./build/*.hex
+            ./build/*.bin
+            ./build/*.dfu
+        continue-on-error: true
