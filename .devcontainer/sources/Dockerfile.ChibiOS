@@ -78,7 +78,6 @@ ARG HEX2DFU=https://github.com/nanoframework/hex2dfu/releases/download/v2.0.9/he
 RUN mkdir -p  $HEX2DFU_PATH \
     && curl -o  $HEX2DFU_PATH/hex2dfu $HEX2DFU -L \
     && chmod +x  $HEX2DFU_PATH/hex2dfu
-    && ln -s /usr/lib/libssl.so.47.0.6 /usr/lib/libssl.so.1.0.0
 
 # Clean up downloaded files
 RUN apt-get autoremove -y \

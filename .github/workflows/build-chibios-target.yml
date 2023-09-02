@@ -29,6 +29,9 @@ jobs:
 
       - name: Setup config
         run: |
+            # Fix for .NET 5 required for hex2dfu
+            ln -s /usr/lib/libssl.so.47.0.6 /usr/lib/libssl.so.1.0.0
+
             # Apply config templates
             pushd config
             mv user-prefs.TEMPLATE.json user-prefs.json
