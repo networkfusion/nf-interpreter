@@ -62,7 +62,7 @@ jobs:
           push: never
           runCmd: |
             # Fix for .NET 5 required for hex2dfu
-            sudo ln -s /usr/lib/libssl.so.47.0.6 /usr/lib/libssl.so.1.0.0
+            ln -s /usr/lib/libssl.so.47.0.6 /usr/lib/libssl.so.1.0.0
             cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
             cmake --build build
 
