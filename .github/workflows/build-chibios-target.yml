@@ -61,13 +61,6 @@ jobs:
           cacheFrom: ghcr.io/nanoframework/dev-container-chibios
           push: never
           runCmd: |
-            # Fix for .NET 5 required for hex2dfu:
-            wget https://www.openssl.org/source/openssl-1.1.1c.tar.gz
-            tar -xzvf openssl-1.1.1c.tar.gz
-            cd openssl-1.1.1c
-            ./config
-            make
-            make install
             # Build target:
             cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
             cmake --build build
