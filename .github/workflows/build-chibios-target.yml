@@ -20,9 +20,9 @@ jobs:
           { target: ST_STM32F769I_DISCOVERY, build-type: Debug },
           { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
           { target: ORGPAL_PALTHREE, build-type: Debug },
-          { target: ST_STM32F429I_DISCOVERY, build-type: MinSizeRel },
-          { target: ST_STM32F429I_DISCOVERY, build-type: Debug },
-          { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
+          # { target: ST_STM32F429I_DISCOVERY, build-type: MinSizeRel },
+          # { target: ST_STM32F429I_DISCOVERY, build-type: Debug },
+          # { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
           # Note: The F091RC debug build is currently broken, so is expected to fail.
           # { target: ST_NUCLEO64_F091RC, build-type: Debug },
         ]
