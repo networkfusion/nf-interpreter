@@ -1,18 +1,19 @@
 # Copyright (c) .NET Foundation and Contributors
 # See LICENSE file in the project root for full license information.
 
-name: Build Dev Container for all platforms
+name: Push devcontainer Docker image [All]
 
 env:
   GCR_IMAGE: dev-container-all
-  GCR_FILE: .devcontainer/sources/Dockerfile.All
+  GCR_SRC_FILE: .devcontainer/sources/Dockerfile.All
+  GCR_VER_FILE: .devcontainer/Dockerfile.All
 
 on:
   push:
     # branches:
     #   - main
     # paths:
-    #   - '**Dockerfile.All'
+    #   - '**Dockerfile.All' #   - '**Dockerfile.*' 
     
   workflow_dispatch:
 
@@ -20,15 +21,31 @@ jobs:
   build:
     if: ${{ vars.PUBLISH_DOCKER_IMAGE == 'true' }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false # Continues to build other targets in the matrix, even if one fails.
+
+      # matrix: # Add the dev containers to build and publish
+      #   include: [
+      #     { GCR_IMAGE: dev-container-all, GCR_SRC_FILE: .devcontainer/sources/Dockerfile.All, GCR_VER_FILE: .devcontainer/Dockerfile.All },
+      #     { GCR_IMAGE: dev-container-azure-rtos, GCR_SRC_FILE: .devcontainer/sources/Dockerfile.AzureRTOS, GCR_VER_FILE: .devcontainer/Dockerfile.AzureRTOS },
+      #     { GCR_IMAGE: dev-container-chibios, GCR_SRC_FILE: .devcontainer/sources/Dockerfile.ChibiOS, GCR_VER_FILE: .devcontainer/Dockerfile.ChibiOS },
+      #     { GCR_IMAGE: dev-container-esp32, GCR_SRC_FILE: .devcontainer/sources/Dockerfile.ESP32, GCR_VER_FILE: .devcontainer/Dockerfile.ESP32 },
+      #     { GCR_IMAGE: dev-container-ti, GCR_SCR_FILE: .devcontainer/sources/Dockerfile.TI, GCR_VER_FILE: .devcontainer/Dockerfile.TI },
+      #   ]
+
     steps:
 
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Get container version
       run: |
-        $dockerfileContent = Get-Content(".devcontainer/Dockerfile.All")
+        # read the content of the version file
+        $dockerfileContent = Get-Content("${{ env.GCR_VER_FILE }}")
+        # use regex to read the current version
         $dockerfileContent -match '(?<=\:)(?:[v]\d+.\d+)'
+        # if it succeeds then set the GCR version.
         $containerVersion = $Matches[0].ToString()
         echo "GCR_VERSION=$containerVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
       shell: pwsh
@@ -46,8 +63,8 @@ jobs:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        file: ${{ env.GCR_FILE }}
-        push: true # Will only build if this is not here.
+        file: ${{ env.GCR_SRC_FILE }}
+        push: 'never' # Will only build if this is not here.
         tags: |
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:${{ env.GCR_VERSION }}
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:latest
