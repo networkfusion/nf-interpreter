@@ -4,8 +4,8 @@
 name: Build Dev Container for all platforms
 
 env:
-  GCR_IMAGE: ghcr.io/nanoframework/dev-container-all
-  GCR_FILE: .devcontainer/sources/Dockerfile.All
+  GCR_IMAGE: 'ghcr.io/${{ github.repository_owner }}/dev-container-all'
+  GCR_FILE: ''.devcontainer/sources/Dockerfile.All'
 
 on:
   push:
