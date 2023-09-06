@@ -10,10 +10,10 @@ env:
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '**Dockerfile.ChibiOS'
+    # branches:
+    #   - main
+    # paths:
+    #   - '**Dockerfile.ChibiOS'
     
   workflow_dispatch:
 
@@ -21,9 +21,6 @@ jobs:
   build:
     if: ${{ vars.PUBLISH_DOCKER_IMAGE == 'true' }}
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false # Continues to build other targets in the matrix, even if one fails.
 
     steps:
 
@@ -55,7 +52,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         file: ${{ env.GCR_SRC_FILE }}
-        push: true # Will only build if this is not here
+        push: false # Will only build if this is not here
         tags: |
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:${{ env.GCR_VERSION }}
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:latest

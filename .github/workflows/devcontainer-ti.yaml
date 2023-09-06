@@ -22,9 +22,6 @@ jobs:
     if: ${{ vars.PUBLISH_DOCKER_IMAGE == 'true' }}
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false # Continues to build other targets in the matrix, even if one fails.
-
     steps:
 
     - name: Checkout Repository
