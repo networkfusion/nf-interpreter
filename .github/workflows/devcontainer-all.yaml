@@ -6,7 +6,6 @@ name: Build Dev Container for all platforms
 env:
   GCR_IMAGE: ghcr.io/nanoframework/dev-container-all
   GCR_FILE: .devcontainer/sources/Dockerfile.All
-  PUBLISH_IMAGE: ${{ github.env.PUBLISH_IMAGE }}
 
 on:
   push:
@@ -19,7 +18,7 @@ on:
 
 jobs:
   build:
-    if: ${{ env.PUBLISH_IMAGE }}
+    if: ${{ github.env.PUBLISH_IMAGE }}
     runs-on: ubuntu-latest
     steps:
 
