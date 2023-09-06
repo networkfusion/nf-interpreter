@@ -10,10 +10,10 @@ env:
 
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - '**Dockerfile.AzureRTOS'
+    branches:
+      - main
+    paths:
+      - '**Dockerfile.AzureRTOS'
     
   workflow_dispatch:
 

@@ -10,10 +10,10 @@ env:
 
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - '**Dockerfile.ChibiOS'
+    branches:
+      - main
+    paths:
+      - '**Dockerfile.ChibiOS'
     
   workflow_dispatch:
 

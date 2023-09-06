@@ -10,10 +10,10 @@ env:
 
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - '**Dockerfile.ESP32'
+    branches:
+      - main
+    paths:
+      - '**Dockerfile.ESP32'
     
   workflow_dispatch:
 

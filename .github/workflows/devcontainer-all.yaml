@@ -10,10 +10,10 @@ env:
 
 on:
   push:
-    # branches:
-    #   - main
-    # paths:
-    #   - '**Dockerfile.All' #  - '**Dockerfile.*' 
+    branches:
+      - main
+    paths:
+      - '**Dockerfile.All' #  - '**Dockerfile.*' 
     
   workflow_dispatch:
 

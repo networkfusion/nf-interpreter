@@ -25,6 +25,9 @@ jobs:
           # { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
           # Note: The F091RC debug build is currently broken, so is expected to fail.
           # { target: ST_NUCLEO64_F091RC, build-type: Debug },
+          # Community targets:
+          { target: ST_NUCLEO64_F411RE_NF, build-type: MinSizeRel },
+          { target: ST_NUCLEO64_F411RE_NF, build-type: Debug },
         ]
 
     runs-on: ubuntu-latest
