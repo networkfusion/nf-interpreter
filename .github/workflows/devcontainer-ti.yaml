@@ -55,7 +55,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         file: ${{ env.GCR_SRC_FILE }}
-        push: false # ${{ env.GCR_VERSION }} # Will only push if GCR version accepted.
+        push: false # Will only build if this is not here
         tags: |
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:${{ env.GCR_VERSION }}
           ghcr.io/${{ github.repository_owner }}/${{ env.GCR_IMAGE }}:latest
