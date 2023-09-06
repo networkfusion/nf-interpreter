@@ -25,9 +25,30 @@ jobs:
           # { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
           # Note: The F091RC debug build is currently broken, so is expected to fail.
           # { target: ST_NUCLEO64_F091RC, build-type: Debug },
+
           # Community targets:
-          { target: ST_NUCLEO64_F411RE_NF, build-type: MinSizeRel },
-          { target: ST_NUCLEO64_F411RE_NF, build-type: Debug },
+          
+          # { target: ST_NUCLEO64_F411RE_NF, build-type: MinSizeRel },
+          # Note: The ST_NUCLEO64_F411RE_NF debug build is currently broken, so is expected to fail.
+          # { target: ST_NUCLEO64_F411RE_NF, build-type: Debug },
+
+          { target: ST_STM32F411_DISCOVERY, build-type: MinSizeRel },
+          { target: ST_STM32F411_DISCOVERY, build-type: Debug },
+
+          # BrainPad2
+          # GHI_FEZ_CERB40_NF
+          # I2M_ELECTRON_NF
+          # I2M_OXYGEN_NF
+          # MBN_QUAIL
+          # NESHTEC_NESHNODE_V1
+          # NETDUINO3_WIFI
+          # PybStick2x
+          # ST_NUCLEO144_F412ZG_NF
+          # ST_NUCLEO144_F439ZI
+          # ST_NUCLEO144_F746ZG
+          # ST_NUCLEO64_F401RE_NF
+          # ST_STM32F4_DISCOVERY
+          # WEACT_F411CE
         ]
 
     runs-on: ubuntu-latest
