@@ -1,4 +1,4 @@
-# name: Devcontainer build for ChibiOS targets
+name: Devcontainer build for ChibiOS targets
 # run-name: ${{ github.actor }}-test
 
 on:
@@ -18,64 +18,67 @@ jobs:
         include: [
           { target: ST_STM32F769I_DISCOVERY, build-type: MinSizeRel },
           { target: ST_STM32F769I_DISCOVERY, build-type: Debug },
+
           { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
           { target: ORGPAL_PALTHREE, build-type: Debug },
+
           # { target: ST_STM32F429I_DISCOVERY, build-type: MinSizeRel },
           # { target: ST_STM32F429I_DISCOVERY, build-type: Debug },
+
           # { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
           # Note: The F091RC debug build is currently broken, so is expected to fail.
           # { target: ST_NUCLEO64_F091RC, build-type: Debug },
 
-          # Community targets:         
+
+          # Community targets:
+                
           # { target: ST_NUCLEO64_F411RE_NF, build-type: MinSizeRel },
-          # Note: The ST_NUCLEO64_F411RE_NF debug build is currently broken, so is expected to fail.
           # { target: ST_NUCLEO64_F411RE_NF, build-type: Debug },
 
           # { target: ST_STM32F411_DISCOVERY, build-type: MinSizeRel },
-          # Note: The ST_STM32F411_DISCOVERY debug build is currently broken, so is expected to fail.
           # { target: ST_STM32F411_DISCOVERY, build-type: Debug },
 
-          { target: BrainPad2, build-type: MinSizeRel },
-          { target: BrainPad2, build-type: Debug },
+          # { target: BrainPad2, build-type: MinSizeRel },
+          # { target: BrainPad2, build-type: Debug },
 
-          { target: GHI_FEZ_CERB40_NF, build-type: MinSizeRel },
-          { target: GHI_FEZ_CERB40_NF, build-type: Debug },
+          # { target: GHI_FEZ_CERB40_NF, build-type: MinSizeRel },
+          # { target: GHI_FEZ_CERB40_NF, build-type: Debug },
 
-          { target: I2M_ELECTRON_NF, build-type: MinSizeRel },
-          { target: I2M_ELECTRON_NF, build-type: Debug },
+          # { target: I2M_ELECTRON_NF, build-type: MinSizeRel },
+          # { target: I2M_ELECTRON_NF, build-type: Debug },
 
-          { target: I2M_OXYGEN_NF, build-type: MinSizeRel },
-          { target: I2M_OXYGEN_NF, build-type: Debug },
+          # { target: I2M_OXYGEN_NF, build-type: MinSizeRel },
+          # { target: I2M_OXYGEN_NF, build-type: Debug },
 
-          { target: MBN_QUAIL, build-type: MinSizeRel },
-          { target: MBN_QUAIL, build-type: Debug },
+          # { target: MBN_QUAIL, build-type: MinSizeRel },
+          # { target: MBN_QUAIL, build-type: Debug },
 
-          { target: NESHTEC_NESHNODE_V1, build-type: MinSizeRel },
-          { target: NESHTEC_NESHNODE_V1, build-type: Debug },
+          # { target: NESHTEC_NESHNODE_V1, build-type: MinSizeRel },
+          # { target: NESHTEC_NESHNODE_V1, build-type: Debug },
 
-          { target: NETDUINO3_WIFI, build-type: MinSizeRel },
-          { target: NETDUINO3_WIFI, build-type: Debug },
+          # { target: NETDUINO3_WIFI, build-type: MinSizeRel },
+          # { target: NETDUINO3_WIFI, build-type: Debug },
           
-          { target: PybStick2x, build-type: MinSizeRel },
-          { target: PybStick2x, build-type: Debug },
+          # { target: PybStick2x, build-type: MinSizeRel },
+          # { target: PybStick2x, build-type: Debug },
 
-          { target: ST_NUCLEO144_F412ZG_NF, build-type: MinSizeRel },
-          { target: ST_NUCLEO144_F412ZG_NF, build-type: Debug },
+          # { target: ST_NUCLEO144_F412ZG_NF, build-type: MinSizeRel },
+          # { target: ST_NUCLEO144_F412ZG_NF, build-type: Debug },
 
-          { target: ST_NUCLEO144_F439ZI, build-type: MinSizeRel },
-          { target: ST_NUCLEO144_F439ZI, build-type: Debug },
+          # { target: ST_NUCLEO144_F439ZI, build-type: MinSizeRel },
+          # { target: ST_NUCLEO144_F439ZI, build-type: Debug },
 
-          { target: ST_NUCLEO144_F746ZG, build-type: MinSizeRel },
-          { target: ST_NUCLEO144_F746ZG, build-type: Debug },
+          # { target: ST_NUCLEO144_F746ZG, build-type: MinSizeRel },
+          # { target: ST_NUCLEO144_F746ZG, build-type: Debug },
 
-          { target: ST_NUCLEO64_F401RE_NF, build-type: MinSizeRel },
-          { target: ST_NUCLEO64_F401RE_NF, build-type: Debug },
+          # { target: ST_NUCLEO64_F401RE_NF, build-type: MinSizeRel },
+          # { target: ST_NUCLEO64_F401RE_NF, build-type: Debug },
 
-          { target: ST_STM32F4_DISCOVERY, build-type: MinSizeRel },
-          { target: ST_STM32F4_DISCOVERY, build-type: Debug },
+          # { target: ST_STM32F4_DISCOVERY, build-type: MinSizeRel },
+          # { target: ST_STM32F4_DISCOVERY, build-type: Debug },
 
-          { target: WEACT_F411CE, build-type: MinSizeRel },
-          { target: WEACT_F411CE, build-type: Debug },
+          # { target: WEACT_F411CE, build-type: MinSizeRel },
+          # { target: WEACT_F411CE, build-type: Debug },
         ]
 
     runs-on: ubuntu-latest
