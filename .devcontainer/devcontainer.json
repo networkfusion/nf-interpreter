@@ -1,15 +1,13 @@
 {
 	"name": "nanoFramework",
 	// Adjust this file to choose the platform you want using the prebuild containers
-	"build": {
-		// - Dockerfile.All = you can build anything but it's a very large container
-		// - Dockerfile.AzureRTOS = for AzureRTOS targets
-		// - Dockerfile.ChibiOS = for ChibiOS based targets (ex: STM32, Netduino, Orgpal)
-		// - Dockerfile.ESP32 = for ESP32 targets
-		// - Dockerfile.TI = for TI targets
-		// If you prefer, you can use the source files and adjust them they are located, with the same names in ./sources. This will alow you to customize them and add anything you may need on top.
-		"dockerFile": "Dockerfile.All"
-	},
+	// - Dockerfile.All = you can build anything but it's a very large container
+	// - Dockerfile.AzureRTOS = for AzureRTOS targets
+	// - Dockerfile.ChibiOS = for ChibiOS based targets (ex: STM32, Netduino, Orgpal)
+	// - Dockerfile.ESP32 = for ESP32 targets
+	// - Dockerfile.TI = for TI targets
+	// If you prefer, you can use the source files and adjust them they are located, with the same names in ./sources. This will alow you to customize them and add anything you may need on top.
+	"dockerFile": "Dockerfile.All",
 	"context": ".",
 	"mounts": [
 		// Bind the Unix socket the Docker daemon listens on by default
