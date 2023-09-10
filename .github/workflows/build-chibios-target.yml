@@ -125,7 +125,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           # The ChibiOS container
-          imageName: sources/Dockerfile.ChibiOS
+          imageName: ./sources/Dockerfile.ChibiOS
           cacheFrom: ghcr.io/nanoframework/dev-container-chibios
           push: never
           runCmd: |
