@@ -79,6 +79,9 @@ RUN mkdir -p  $HEX2DFU_PATH \
     && curl -o  $HEX2DFU_PATH/hex2dfu $HEX2DFU -L \
     && chmod +x  $HEX2DFU_PATH/hex2dfu
 
+RUN git clone https://github.com/openocd-org/openocd.git --depth=1 --recurse-submodules \
+    && cd openocd && ./bootstrap && ./configure --enable-ftdi --enable-sysfsgpio --enable-cmsis-dap && make -j 8 install 
+
 # Clean up downloaded files
 RUN apt-get autoremove -y \
     && apt-get clean -y \

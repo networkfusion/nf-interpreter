@@ -138,6 +138,9 @@ $IDF_PATH/components/app_update:\
 /root/.espressif/tools/xtensa-esp32s3-elf/$ESP_PATCH_VER/xtensa-esp32s3-elf/bin:\
 /root/.espressif/tools/riscv32-esp-elf/$ESP_PATCH_VER/riscv32-esp-elf/bin
 
+RUN git clone https://github.com/openocd-org/openocd.git --depth=1 --recurse-submodules \
+    && cd openocd && ./bootstrap && ./configure --enable-ftdi --enable-sysfsgpio --enable-cmsis-dap && make -j 8 install 
+
 # Clean up downloaded files
 RUN apt-get autoremove -y \
     && apt-get clean -y \
