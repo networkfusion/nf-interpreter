@@ -106,9 +106,9 @@ jobs:
             # Move into the .devcontainer directory
             pushd .devcontainer
             # We could target the chibios container for a quicker build
-            # sed -i -- 's|"dockerfile": "Dockerfile.All"|"dockerfile": "Dockerfile.ChibiOS"|g' devcontainer.json
+            # sed -i -- 's|"dockerfile": "sources/Dockerfile.All"|"dockerfile": "Dockerfile.ChibiOS"|g' devcontainer.json
             # But we actually require a change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
-            sed -i -- 's|"dockerfile": "Dockerfile.All"|"dockerfile": "sources/Dockerfile.ChibiOS"|g' devcontainer.json
+            sed -i -- 's|"dockerfile": "sources/Dockerfile.All"|"dockerfile": "sources/Dockerfile.ChibiOS"|g' devcontainer.json
             # Move out of the .devcontainer directory
             popd
 
@@ -123,7 +123,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           # The ChibiOS container
-          cacheFrom: ghcr.io/nanoframework/dev-container-chibios
+          cacheFrom: 'type=registry,ref=ghcr.io/nanoframework/dev-container-chibios:latest'
           push: never
           runCmd: |
             # Build target:

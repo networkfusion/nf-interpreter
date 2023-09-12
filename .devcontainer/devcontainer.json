@@ -9,7 +9,15 @@
 	// If you prefer, you can use the source files and adjust them where they are located,
 	// To do this, prefix 'sources'. e.g. 'sources/Dockerfile.All'.
 	// This will allow you to customize and build the container source and add anything you may need on top.
-	"build": {"dockerfile": "Dockerfile.All"},
+	"build": {
+		"dockerfile": "sources/Dockerfile.All", 
+		"context": ".",
+		"cacheFrom": [
+			"type=registry,ref=ghcr.io/nanoframework/dev-container-all:v2.36",
+			"type=registry,ref=ubuntu:latest",
+			"type=registry,ref=ghcr.io/linuxcontainers/debian-slim:latest"
+			]
+		},
 	"mounts": [
 		// Bind the Unix socket the Docker daemon listens on by default
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
