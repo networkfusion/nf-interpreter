@@ -9,8 +9,9 @@
 	// If you prefer, you can use the source files and adjust them where they are located,
 	// To do this, prefix 'sources'. e.g. 'sources/Dockerfile.All'.
 	// This will allow you to customize and build the container source and add anything you may need on top.
-	"dockerFile": "sources/Dockerfile.ChibiOS",
-	"context": ".",
+	"build": {
+        "dockerfile": "./sources/Dockerfile.ChibiOS"
+    },
 	"mounts": [
 		// Bind the Unix socket the Docker daemon listens on by default
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
@@ -44,7 +45,7 @@
 		}
 	},
 	// find serial and USB devices for deployment.
-	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined", "--device=/dev/bus/usb", "--device=/dev/ttyACM0"] //,
+	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined", "--device=/dev/bus/usb"] //, //, "--device=/dev/ttyACM0"
 	// You can pull all the repos with the latest changes, this is only valid if you are using the ./sources/Dockerfile.All containers
 	// "postAttachCommand": "/usr/local/git-pull-repos.sh"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

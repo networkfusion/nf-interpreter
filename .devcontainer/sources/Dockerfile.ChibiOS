@@ -37,25 +37,42 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog icu-devtools 2>&1 \
     && apt-get install -y \
     git \
-    git-svn \
-    subversion \
     clang-format \
     curl \
     ninja-build \
-    srecord
+    srecord \
+    build-essential \
+    pkg-config \
+    automake \
+    autoconf \
+    texinfo \    
+    libftdi-dev \
+    libusb-1.0-0-dev \
+    libtool-bin \
+    libhidapi-dev
 
-# Create needed directories
-RUN mkdir -p /usr/local/bin/gcc \
-    && mkdir -p /usr/local/bin/xtensa \
-    && mkdir -p /usr/local/bin/titools
+# build Jlink
+# RUN mkdir -p ~/opt/SEGGER && cd ~/opt/SEGGER && tar xf ~/Downloads/JLink_Linux_V684_x86_64.tgz \
+#     && chmod a-w ~/opt/SEGGER/JLink_Linux_V684_x86_64 && ls -l ~/opt/SEGGER/JLink_Linux_V684_x86_64
 
-# Clone repos for STM32 including AzureRTOS
+# build open OCD (missing --enable-jlink)
+RUN git clone --branch master https://github.com/openocd-org/openocd.git --depth=1 --recurse-submodules \
+    && cd openocd && ./bootstrap && ./configure --enable-stlink --enable-ftdi --enable-cmsis-dap && make -j 8 install-strip
+RUN cp /usr/local/share/openocd/contrib/99-openocd.rules /etc/udev/rules.d/99-openocd.rules
+
+# # Create needed directories
+# RUN mkdir -p /usr/local/bin/gcc \
+#     && mkdir -p /usr/local/bin/xtensa \
+#     && mkdir -p /usr/local/bin/titools
+
+# Clone repos for STM32 using ChibiOS
 RUN git clone --branch nf-build https://github.com/nanoframework/STM32CubeL4.git --depth 1 ./sources/STM32CubeL4 \
     && git clone --branch nf-build https://github.com/nanoframework/STM32CubeF7.git --depth 1 ./sources/STM32CubeF7 \
     && git clone --branch nf-build https://github.com/nanoframework/STM32CubeF4.git --depth 1 ./sources/STM32CubeF4 \
     && git clone --branch nf-build https://github.com/nanoframework/STM32CubeH7.git --depth 1 ./sources/STM32CubeH7 \    
-    && git svn clone http://svn.code.sf.net/p/chibios/code/branches/stable_21.11.x -rHEAD ./sources/ChibiOs \
+    && git clone --branch stable_21.11.x https://github.com/ArduPilot/ChibiOS.svn.git  --depth 1 ./sources/ChibiOs \
     && git clone --branch nanoframework https://github.com/nanoframework/ChibiOS-Contrib.git --depth 1 ./sources/ChibiOs-Contrib
+
 # Clone mbedtls and fatfs
 RUN git clone --branch mbedtls-2.28.2 https://github.com/ARMmbed/mbedtls.git --depth 1 ./sources/mbedtls \
     && git clone --branch R0.15 https://github.com/abbrev/fatfs.git --depth 1 ./sources/fatfs \
@@ -78,9 +95,6 @@ ARG HEX2DFU=https://github.com/nanoframework/hex2dfu/releases/download/v3.0.2/he
 RUN mkdir -p  $HEX2DFU_PATH \
     && curl -o  $HEX2DFU_PATH/hex2dfu $HEX2DFU -L \
     && chmod +x  $HEX2DFU_PATH/hex2dfu
-
-RUN git clone https://github.com/openocd-org/openocd.git --depth=1 --recurse-submodules \
-    && cd openocd && ./bootstrap && ./configure --enable-ftdi --enable-sysfsgpio --enable-cmsis-dap && make -j 8 install 
 
 # Clean up downloaded files
 RUN apt-get autoremove -y \
