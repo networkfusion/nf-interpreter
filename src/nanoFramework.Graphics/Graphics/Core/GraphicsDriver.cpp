@@ -82,7 +82,7 @@ CLR_UINT32 GraphicsDriver::GetPixel(const PAL_GFX_Bitmap &bitmap, int x, int y)
 
 void GraphicsDriver::SetPixel(const PAL_GFX_Bitmap &bitmap, int x, int y, CLR_UINT32 color)
 {
-    SetPixelNative(bitmap, x, y, ConvertColorToNative(color));
+    SetPixelNative(bitmap, x, y, ColorBGRToRRRRRGGGGGGBBBBB(color));
 }
 
 void GraphicsDriver::DrawLine(const PAL_GFX_Bitmap &bitmap, const GFX_Pen &pen, int x0, int y0, int x1, int y1)
@@ -901,7 +901,7 @@ void GraphicsDriver::DrawImage(
         if (bitmapSrc.transparentColor != PAL_GFX_Bitmap::c_InvalidColor)
         {
             type |= Transparent;
-            nativeTransparentColor = g_GraphicsDriver.ConvertColorToNative(bitmapSrc.transparentColor);
+            nativeTransparentColor = g_GraphicsDriver.ColorBGRToRRRRRGGGGGGBBBBB(bitmapSrc.transparentColor);
         }
         if (opacity != PAL_GFX_Bitmap::c_OpacityOpaque)
         {
@@ -1032,7 +1032,7 @@ void GraphicsDriver::DrawImage(
             ps = rowstart + xSourceOffset;
 
             CLR_UINT16 color = *ps;
-            CLR_UINT32 nativeTransparentColor = g_GraphicsDriver.ConvertColorToNative(bitmapSrc.transparentColor);
+            CLR_UINT32 nativeTransparentColor = g_GraphicsDriver.ColorBGRToRRRRRGGGGGGBBBBB(bitmapSrc.transparentColor);
             bool noTransparent = bitmapSrc.transparentColor == PAL_GFX_Bitmap::c_InvalidColor;
             bool transparent = (noTransparent == false) && (color == nativeTransparentColor);
 
@@ -1174,21 +1174,21 @@ CLR_UINT32 GraphicsDriver::NativeColorInterpolate(CLR_UINT32 colorTo, CLR_UINT32
     if (scalar == PAL_GFX_Bitmap::c_OpacityTransparent)
         return colorFrom;
 
-    CLR_UINT32 rT = NativeColorRValue(colorTo) * scalar;
-    CLR_UINT32 gT = NativeColorGValue(colorTo) * scalar;
-    CLR_UINT32 bT = NativeColorBValue(colorTo) * scalar;
+    CLR_UINT32 rT = ColorRedFromRRRRRGGGGGGBBBBB(colorTo) * scalar;
+    CLR_UINT32 gT = ColorGreenFromRRRRRGGGGGGBBBBB(colorTo) * scalar;
+    CLR_UINT32 bT = ColorBlueFromRRRRRGGGGGGBBBBB(colorTo) * scalar;
 
     CLR_UINT16 invertScalar = PAL_GFX_Bitmap::c_OpacityOpaque - scalar;
 
-    CLR_UINT32 rF = NativeColorRValue(colorFrom) * invertScalar;
-    CLR_UINT32 gF = NativeColorGValue(colorFrom) * invertScalar;
-    CLR_UINT32 bF = NativeColorBValue(colorFrom) * invertScalar;
+    CLR_UINT32 rF = ColorRedFromRRRRRGGGGGGBBBBB(colorFrom) * invertScalar;
+    CLR_UINT32 gF = ColorGreenFromRRRRRGGGGGGBBBBB(colorFrom) * invertScalar;
+    CLR_UINT32 bF = ColorBlueFromRRRRRGGGGGGBBBBB(colorFrom) * invertScalar;
 
     ASSERT(((rT + rF) >> 8) <= 0x1F);
     ASSERT(((gT + gF) >> 8) <= 0x3F);
     ASSERT(((bT + bF) >> 8) <= 0x1F);
 
-    return NativeColorFromRGB((rT + rF) >> 8, (gT + gF) >> 8, (bT + bF) >> 8);
+    return ColorRGBToRRRRRGGGGGGBBBBB((rT + rF) >> 8, (gT + gF) >> 8, (bT + bF) >> 8);
 }
 
 void GraphicsDriver::DrawBresLineNative(const PAL_GFX_Bitmap &bitmap, int x0, int y0, int x1, int y1, GFX_Pen &pen)
@@ -1484,6 +1484,35 @@ void GraphicsDriver::EllipseAlgorithm(
     }
 }
 
+// SetPixelsHelper is designed to allow the caller to fill an area of a
+// bitmap without incurring unnecessary cost of calculating the x, y position
+// for each pixel. The parameters are as follow: 1) bitmap -- the target bitmap
+// 2) rect -- the area on the bitmap to iterate through
+// 3) config -- configuration for how the callbacks will be made, more
+// specifically:
+//      c_SetPixelsConfig_NoClip        - No clipping will be done, each pixel
+//      in the rect area specified will received
+//                                        a callback once in order.
+//      c_SetPixelsConfig_Clip          - Clipping will be done against
+//      bitmap.clipping, and each pixel in the visible area
+//                                        will receive a callback once in order.
+//      c_SetPixelsConfig_NoClipChecks  - By default, when
+//      c_SetPixelsConfig_NoClip is set, each pixel is passed through
+//                                        a series of test to determine if the
+//                                        pixel is visible prior to the
+//                                        callback, and the result is reflected
+//                                        in the c_SetPixels_PixelHidden flag.
+//                                        If those check are unneccessary, this
+//                                        configuration option will save some
+//                                        time.
+//      c_SetPixelsConfig_ReverseY      - The default order of the callback is
+//      increasing x, increasing y (top to bottom,
+//                                        and within each row, left to right).
+//                                        Setting c_SetPixelsConfig_ReverseY
+//                                        will change the order to be increasing
+//                                        x, decreasing y (bottom to top, and
+//                                        within each row, left to right).
+// 4) param -- a custom pointer that's passed into each callback.
 void GraphicsDriver::SetPixelsHelper(
     const PAL_GFX_Bitmap &bitmap,
     const GFX_Rect &rect,
@@ -1547,7 +1576,7 @@ void GraphicsDriver::SetPixelsHelper(
                 if (opacity != PAL_GFX_Bitmap::c_OpacityTransparent)
                 {
                     *curPixel = g_GraphicsDriver.NativeColorInterpolate(
-                        g_GraphicsDriver.ConvertColorToNative(color),
+                        g_GraphicsDriver.ColorBGRToRRRRRGGGGGGBBBBB(color),
                         *curPixel,
                         opacity);
                 }

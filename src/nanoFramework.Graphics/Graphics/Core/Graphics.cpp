@@ -29,7 +29,7 @@ bool CLR_GFX_BitmapDescription::BitmapDescription_Initialize(int width, int heig
     m_width = (CLR_UINT32)width;
     m_height = (CLR_UINT32)height;
     m_flags = 0;
-    m_type = CLR_GFX_BitmapDescription::c_Type_nanoCLRBitmap;
+    m_type = 0;
 
     if (GetTotalSize() < 0)
         return false;

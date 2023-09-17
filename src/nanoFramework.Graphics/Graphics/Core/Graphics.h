@@ -48,9 +48,9 @@ struct CLR_GFX_BitmapDescription
     static const CLR_UINT8 c_UncompressedRunLength = 7;
     static const CLR_UINT8 c_CompressedRunOffset = c_UncompressedRunLength + 1;
 
-    // static // Note that these type definitions has to match the ones defined in Bitmap.BitmapImageType enum defined
+    // Note that these type definitions has to match the ones defined in Bitmap.BitmapImageType enum defined
     // in Graphics.cs
-    static const CLR_UINT8 c_Type_nanoCLRBitmap = 0;
+////    static const CLR_UINT8 c_Type_nanoCLRBitmap = 0;
     static const CLR_UINT8 c_TypeGif = 1;
     static const CLR_UINT8 c_TypeJpeg = 2;
     static const CLR_UINT8 c_TypeBmp = 3; // The windows .bmp format
@@ -396,25 +396,7 @@ static const RADIAN radian[] = {
 //             persisted between each callback call
 // Return Value -- The color of the pixel
 typedef CLR_UINT32 (*GFX_SetPixelsCallback)(int, int, CLR_UINT32, CLR_UINT16 &, void *);
-// Graphics_SetPixelsHelper is designed to allow the caller to fill an area of a bitmap without incurring unnecessary
-// cost of calculating the x, y position for each pixel. The parameters are as follow: 1) bitmap -- the target bitmap 2)
-// rect -- the area on the bitmap to iterate through 3) config -- configuration for how the callbacks will be made, more
-// specifically:
-//      c_SetPixelsConfig_NoClip        - No clipping will be done, each pixel in the rect area specified will received
-//                                        a callback once in order.
-//      c_SetPixelsConfig_Clip          - Clipping will be done against bitmap.clipping, and each pixel in the visible
-//      area
-//                                        will receive a callback once in order.
-//      c_SetPixelsConfig_NoClipChecks  - By default, when c_SetPixelsConfig_NoClip is set, each pixel is passed through
-//                                        a series of test to determine if the pixel is visible prior to the callback,
-//                                        and the result is reflected in the c_SetPixels_PixelHidden flag. If those
-//                                        check are unneccessary, this configuration option will save some time.
-//      c_SetPixelsConfig_ReverseY      - The default order of the callback is increasing x, increasing y (top to
-//      bottom,
-//                                        and within each row, left to right). Setting c_SetPixelsConfig_ReverseY will
-//                                        change the order to be increasing x, decreasing y (bottom to top, and within
-//                                        each row, left to right).
-// 4) param -- a custom pointer that's passed into each callback.
+
 struct PAL_GFX_Bitmap
 {
     int width;
@@ -744,36 +726,31 @@ struct GraphicsDriver
 
     static CLR_UINT32 NativeColorInterpolate(CLR_UINT32 colorTo, CLR_UINT32 colorFrom, CLR_UINT16 scalar);
 
-    __inline static CLR_UINT8 NativeColorRValue(CLR_UINT32 color)
+    __inline static CLR_UINT8 Color24BitRGBToRGB8Bit(CLR_UINT32 Color24BitRGB) 
+    {
+      CLR_UINT8 Red3Bits = ((Color24BitRGB >> 16) & 0xFF) * 7 / 255;
+      CLR_UINT8 Green3Bits = (((Color24BitRGB & 0x00FF00) & 0xFF) >> 8) * 7 / 255;
+      CLR_UINT8 Blue2Bits = ((Color24BitRGB &  0x0000FF) & 0xFF) * 3 / 255;
+      return (Red3Bits << 5) + (Green3Bits << 2) + Blue2Bits;
+     }
+
+    __inline static CLR_UINT8 ColorRedFromRRRRRGGGGGGBBBBB(CLR_UINT32 color) 
     {
         return (color & 0xF800) >> 11;
     }
-    __inline static CLR_UINT8 NativeColorGValue(CLR_UINT32 color)
+    __inline static CLR_UINT8 ColorGreenFromRRRRRGGGGGGBBBBB(CLR_UINT32 color)
     {
         return (color & 0x07E0) >> 5;
     }
-    __inline static CLR_UINT8 NativeColorBValue(CLR_UINT32 color)
+    __inline static CLR_UINT8 ColorBlueFromRRRRRGGGGGGBBBBB(CLR_UINT32 color)
     {
         return color & 0x1F;
     }
-    __inline static CLR_UINT32 NativeColorFromRGB(CLR_UINT8 r, CLR_UINT8 g, CLR_UINT8 b)
+    __inline static CLR_UINT32 ColorRGBToRRRRRGGGGGGBBBBB(CLR_UINT8 r, CLR_UINT8 g, CLR_UINT8 b)
     {
-        ASSERT((b <= 0x1F) && (g <= 0x3F) && (r <= 0x1F));
         return (r << 11) | (g << 5) | b;
     }
 
-    __inline static CLR_UINT8 ColorRValue(CLR_UINT32 color)
-    {
-        return color & 0x0000FF;
-    }
-    __inline static CLR_UINT8 ColorGValue(CLR_UINT32 color)
-    {
-        return (color & 0x00FF00) >> 8;
-    }
-    __inline static CLR_UINT8 ColorBValue(CLR_UINT32 color)
-    {
-        return (color & 0xFF0000) >> 16;
-    }
     __inline static CLR_UINT32 ColorFromRGB(CLR_UINT8 r, CLR_UINT8 g, CLR_UINT8 b)
     {
         return (b << 16) | (g << 8) | r;
@@ -781,27 +758,31 @@ struct GraphicsDriver
 
     __inline static CLR_UINT32 ConvertNativeToColor(CLR_UINT32 nativeColor)
     {
-        int r = NativeColorRValue(nativeColor) << 3;
+        int r = ColorRedFromRRRRRGGGGGGBBBBB(nativeColor) << 3;
         if ((r & 0x8) != 0)
             r |= 0x7; // Copy LSB
-        int g = NativeColorGValue(nativeColor) << 2;
+        int g = ColorGreenFromRRRRRGGGGGGBBBBB(nativeColor) << 2;
         if ((g & 0x4) != 0)
             g |= 0x3; // Copy LSB
-        int b = NativeColorBValue(nativeColor) << 3;
+        int b = ColorBlueFromRRRRRGGGGGGBBBBB(nativeColor) << 3;
         if ((b & 0x8) != 0)
             b |= 0x7; // Copy LSB
         return ColorFromRGB(r, g, b);
     }
-    __inline static CLR_UINT32 ConvertColorToNative(CLR_UINT32 color)
+    __inline static CLR_UINT32 ColorBGRToRRRRRGGGGGGBBBBB(CLR_UINT32 color)
     {
-        return NativeColorFromRGB(ColorRValue(color) >> 3, ColorGValue(color) >> 2, ColorBValue(color) >> 3);
-    }
+      CLR_UINT8 Red5bitFromBGR = (color & 0x0000FF) >> 3;
+      CLR_UINT8 Green6bitFromBGR = ((color & 0x00FF00) >> 8) >> 2;
+      CLR_UINT8 Blue5bitFromBGR = ((color & 0xFF0000) >> 16) >> 3;
 
+      return Red5bitFromBGR << 11 | Green6bitFromBGR << 5 | Blue5bitFromBGR;
+    }
+    
     __inline static GFX_Pen ConvertPenToNative(const GFX_Pen &pen)
     {
         GFX_Pen nativePen;
         nativePen.thickness = pen.thickness;
-        nativePen.color = ConvertColorToNative(pen.color);
+        nativePen.color = ColorBGRToRRRRRGGGGGGBBBBB(pen.color);
         return nativePen;
     }
 
@@ -810,10 +791,10 @@ struct GraphicsDriver
         GFX_Brush nativeBrush;
         nativeBrush.gradientStartX = brush.gradientStartX;
         nativeBrush.gradientStartY = brush.gradientStartY;
-        nativeBrush.gradientStartColor = ConvertColorToNative(brush.gradientStartColor);
+        nativeBrush.gradientStartColor = ColorBGRToRRRRRGGGGGGBBBBB(brush.gradientStartColor);
         nativeBrush.gradientEndX = brush.gradientEndX;
         nativeBrush.gradientEndY = brush.gradientEndY;
-        nativeBrush.gradientEndColor = ConvertColorToNative(brush.gradientEndColor);
+        nativeBrush.gradientEndColor = ColorBGRToRRRRRGGGGGGBBBBB(brush.gradientEndColor);
         nativeBrush.opacity = brush.opacity;
         return nativeBrush;
     }
@@ -836,11 +817,6 @@ struct GraphicsDriver
         int offsetY,
         void *params);
 };
-
-// The PAL Graphics API uses the 24bit BGR color space, the one that's used for the
-// CLR. It is the responsibility of whoever is implementing the PAL to deal with color conversion
-// as neither CLR or TinyCore understands any color space other than this default one.
-// For opacity, the valid value are from 0 (c_OpacityTransparent) to 256 (c_OpacityOpaque).
 
 //_____________________________________
 //   Gesture support
