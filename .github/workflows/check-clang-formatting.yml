@@ -1,4 +1,4 @@
-name: Clang format checks.
+name: linter checks.
 
 # The aim here is to keep the nf code in the right format. We ignore "target" folders as they are generally configuration folders
 # and require copy and paste when updating.
@@ -20,10 +20,18 @@ on:
 
 
 jobs:
-    check-code:
+    linter-checks:
         runs-on: ubuntu-latest
 
         steps:
           - uses: actions/checkout@v4
+          - uses: cpp-linter/cpp-linter-action@v2
+            id: linter
             with:
-              submodules: true
+              style: file
+    
+          - name: Fail fast?!
+            if: steps.linter.outputs.checks-failed > 0
+            run: echo "Some files failed the linting checks!"
+            # for actual deployment
+            # run: exit 1
