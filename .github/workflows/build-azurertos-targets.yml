@@ -38,14 +38,14 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          { target: SiliconLabs/SL_STK3701A, build-type: MinSizeRel },
-          { target: SiliconLabs/SL_STK3701A, build-type: Debug },
+          { target: SL_STK3701A, build-type: MinSizeRel },
+          { target: SL_STK3701A, build-type: Debug },
 
-          { target: ST/ORGPAL_PALTHREE, build-type: MinSizeRel },
-          { target: ST/ORGPAL_PALTHREE, build-type: Debug },
+          { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
+          { target: ORGPAL_PALTHREE, build-type: Debug },
 
-          { target: ST/ST_B_L475E_IOT01A, build-type: MinSizeRel },
-          { target: ST/ST_B_L475E_IOT01A, build-type: Debug },
+          { target: ST_B_L475E_IOT01A, build-type: MinSizeRel },
+          { target: ST_B_L475E_IOT01A, build-type: Debug },
 
         ]
 
