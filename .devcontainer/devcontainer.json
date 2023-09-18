@@ -46,7 +46,8 @@
 			]
 		}
 	},
-	"postCreateCommand": "git submodule update --init --recursive --remote" //"git submodule sync && git submodule init && git submodule update"
+	// update the nf-community-targets repo
+	"postCreateCommand": "git config --global --add safe.directory /workspaces/nf-interpreter && git submodule update --init --recursive --remote"
 	// You can pull all the repos with the latest changes, this is only valid if you are using the ./sources/Dockerfile.All containers
 	// "postAttachCommand": "/usr/local/git-pull-repos.sh"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
