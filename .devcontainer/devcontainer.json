@@ -15,7 +15,7 @@
 		// Bind the Unix socket the Docker daemon listens on by default
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
 		// Keep command history 
-		"source=nano-bashhistory,target=/home/vscode/commandhistory,type=volume",
+		"source=nano-bashhistory,target=/home/vscode/commandhistory,type=volume" // ,
 		// OPTIONAL: Mount .azure folder for seamless az cli auth
 		// "source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind"
 	],
@@ -46,7 +46,7 @@
 			]
 		}
 	},
-	"postCreateCommand": "git submodule sync && git submodule update --init --recursive"
+	"postCreateCommand": "git submodule sync && git submodule init && git submodule update"
 	// You can pull all the repos with the latest changes, this is only valid if you are using the ./sources/Dockerfile.All containers
 	// "postAttachCommand": "/usr/local/git-pull-repos.sh"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
