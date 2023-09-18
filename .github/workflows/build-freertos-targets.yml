@@ -1,0 +1,112 @@
+name: Devcontainer build for FreeRTOS targets
+
+on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target changes.
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'targets/ChibiOS/**'
+      - 'targets-community/ChibiOS/**'
+      - 'targets/AzureRTOS/**'
+      - 'targets-community/AzureRTOS/**'
+      - 'targets/ESP32/**'
+      - 'targets-community/ESP32/**'
+      - 'targets-community/FreeRTOS/**'
+      - 'targets/TI_SimpleLink/**'
+      - 'targets-community/TI_SimpleLink/**'
+      - 'targets/win32/**'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'targets/ChibiOS/**'
+      - 'targets-community/ChibiOS/**'
+      - 'targets/AzureRTOS/**'
+      - 'targets-community/AzureRTOS/**'
+      - 'targets/ESP32/**'
+      - 'targets-community/ESP32/**'
+      - 'targets-community/FreeRTOS/**'
+      - 'targets/TI_SimpleLink/**'
+      - 'targets-community/TI_SimpleLink/**'
+      - 'targets/win32/**'
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+
+jobs:
+  build-target:
+    strategy:
+      fail-fast: false # Continues to build other targets in the matrix, even if one fails.
+
+      matrix: # Add the target and build type you wish to generate firmware for:
+        include: [
+          { target: NXP_MIMXRT1060_EVK, build-type: MinSizeRel },
+          { target: NXP_MIMXRT1060_EVK, build-type: Debug },
+
+
+          # Community targets:
+
+        ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Update repo submodules
+        run: |
+          git submodule update --init
+
+      - name: Adjust config templates for devcontainer
+        run: |
+            # Move into the config directory
+            pushd config
+            # Rename the templates
+            mv user-prefs.TEMPLATE.json user-prefs.json
+            mv user-tools-repos.TEMPLATE.json user-tools-repos.json
+            # Adjust the file content for a devcontainer
+            sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+            # Move out of the config directory
+            popd
+
+      - name: Adjust devcontainer.json (ChibiOS source)
+        run: |
+            # required fixes for current devcontainer
+            # Move into the .devcontainer directory
+            pushd .devcontainer
+
+            # fix if needed.
+
+            # Move out of the .devcontainer directory
+            popd
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build ${{ matrix.target }} ${{ matrix.build-type }} Firmware
+        uses: devcontainers/ci@v0.3
+        with:
+          # The ChibiOS container
+          cacheFrom: ghcr.io/nanoframework/dev-container-all
+          push: never
+          runCmd: |
+            # Build target:
+            cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+            cmake --build build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Firmware ${{ matrix.target }}-${{ matrix.build-type }}
+          path: |
+            ./build/*.map
+            ./build/*.elf
+            ./build/*.hex
+            ./build/*.bin
+            ./build/*.dfu
