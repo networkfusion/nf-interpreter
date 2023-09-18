@@ -1,0 +1,29 @@
+name: Clang format checks.
+
+# The aim here is to keep the nf code in the right format. We ignore "target" folders as they are generally configuration folders
+# and require copy and paste when updating.
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'targets/**'
+      - 'targets-community/**'
+  pull_request:
+    paths-ignore:
+        - '*.md'
+        - 'targets/**'
+        - 'targets-community/**'
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+
+jobs:
+    check-code:
+        runs-on: ubuntu-latest
+
+        steps:
+          - uses: actions/checkout@v4
+            with:
+              submodules: true
