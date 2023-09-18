@@ -153,7 +153,8 @@ jobs:
           push: never
           runCmd: |
             # Build target:
-            cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}  # TODO: add : -DBUILD_VERSION=${{NBGV_VersionMajor}}.${{NBGV_VersionMinor}}.${{NBGV_BuildNumber}}.${{TARGET_BUILD_COUNTER}}
+            #  # TODO: add : -DBUILD_VERSION=${{NBGV_VersionMajor}}.${{NBGV_VersionMinor}}.${{NBGV_BuildNumber}}.${{TARGET_BUILD_COUNTER}}
+            cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
             cmake --build build
 
       - name: Upload Artifact
