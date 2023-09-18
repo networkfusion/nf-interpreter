@@ -41,8 +41,8 @@ jobs:
           { target: SL_STK3701A, build-type: MinSizeRel },
           { target: SL_STK3701A, build-type: Debug },
 
-          # { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
-          # { target: ORGPAL_PALTHREE, build-type: Debug },
+          { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
+          { target: ORGPAL_PALTHREE, build-type: Debug },
 
           { target: ST_B_L475E_IOT01A, build-type: MinSizeRel },
           { target: ST_B_L475E_IOT01A, build-type: Debug },
@@ -64,23 +64,28 @@ jobs:
         run: |
             # Move into the config directory
             pushd config
+
             # Rename the templates
             mv user-prefs.TEMPLATE.json user-prefs.json
             mv user-tools-repos.TEMPLATE.json user-tools-repos.json
+
             # Adjust the file content for a devcontainer
             sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+
             # Move out of the config directory
             popd
 
       - name: Adjust devcontainer.json (AzureRTOS source)
         run: |
-            # required fixes for current devcontainer
             # Move into the .devcontainer directory
             pushd .devcontainer
+
             # target the AzureRTOS container for a quicker build
             sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.AzureRTOS"|g' devcontainer.json
+
             # But if needed, we could change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
             # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.AzureRTOS"|g' devcontainer.json
+            
             # Move out of the .devcontainer directory
             popd
 
