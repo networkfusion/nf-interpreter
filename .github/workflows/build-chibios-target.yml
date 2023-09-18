@@ -75,8 +75,8 @@ jobs:
           # { target: MBN_QUAIL, build-type: MinSizeRel },
           # { target: MBN_QUAIL, build-type: Debug },
 
-          # { target: NESHTEC_NESHNODE_V1, build-type: MinSizeRel },
-          # { target: NESHTEC_NESHNODE_V1, build-type: Debug },
+          { target: NESHTEC_NESHNODE_V1, build-type: MinSizeRel },
+          { target: NESHTEC_NESHNODE_V1, build-type: Debug },
 
           # { target: NETDUINO3_WIFI, build-type: MinSizeRel },
           # { target: NETDUINO3_WIFI, build-type: Debug },
@@ -153,7 +153,7 @@ jobs:
           push: never
           runCmd: |
             # Build target:
-            cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+            cmake --preset=${{ matrix.target }} -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}  # TODO: add : -DBUILD_VERSION=${{NBGV_VersionMajor}}.${{NBGV_VersionMinor}}.${{NBGV_BuildNumber}}.${{TARGET_BUILD_COUNTER}}
             cmake --build build
 
       - name: Upload Artifact
