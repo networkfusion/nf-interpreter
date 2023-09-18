@@ -1,13 +1,35 @@
 name: Devcontainer build for ChibiOS targets
-# run-name: ${{ github.actor }}-test
 
-on:
+on: # ChibiOS specific changes. We specifically ignore other (RTOS) target changes.
   push:
+    paths-ignore:
+      - '*.md'
+      - 'targets/AzureRTOS/**'
+      - 'targets-community/AzureRTOS/**'
+      - 'targets/ESP32/**'
+      - 'targets-community/ESP32/**'
+      - 'targets/FreeRTOS/**'
+      - 'targets-community/FreeRTOS/**'
+      - 'targets/TI_SimpleLink/**'
+      - 'targets-community/TI_SimpleLink/**'
+      - 'targets/win32/**'
   pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'targets/AzureRTOS/**'
+      - 'targets-community/AzureRTOS/**'
+      - 'targets/ESP32/**'
+      - 'targets-community/ESP32/**'
+      - 'targets/FreeRTOS/**'
+      - 'targets-community/FreeRTOS/**'
+      - 'targets/TI_SimpleLink/**'
+      - 'targets-community/TI_SimpleLink/**'
+      - 'targets/win32/**'
   release:
     types:
       - created
   workflow_dispatch:
+
 
 jobs:
   build-target:
@@ -19,11 +41,11 @@ jobs:
           { target: ST_STM32F769I_DISCOVERY, build-type: MinSizeRel },
           { target: ST_STM32F769I_DISCOVERY, build-type: Debug },
 
-          # { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
-          # { target: ORGPAL_PALTHREE, build-type: Debug },
+          { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
+          { target: ORGPAL_PALTHREE, build-type: Debug },
 
-          # { target: ST_STM32F429I_DISCOVERY, build-type: MinSizeRel },
-          # { target: ST_STM32F429I_DISCOVERY, build-type: Debug },
+          { target: ST_STM32F429I_DISCOVERY, build-type: MinSizeRel },
+          { target: ST_STM32F429I_DISCOVERY, build-type: Debug },
 
           # { target: ST_NUCLEO64_F091RC, build-type: MinSizeRel },
           # Note: The F091RC debug build is currently broken, so is expected to fail.
@@ -88,7 +110,7 @@ jobs:
         with:
           submodules: true
 
-      - name: Update submodules
+      - name: Update repo submodules
         run: |
           git submodule update --init
 
