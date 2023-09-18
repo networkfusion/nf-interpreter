@@ -16,9 +16,6 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          # { target: ST_NUCLEO144_F767ZI, build-type: MinSizeRel },
-          # { target: ST_NUCLEO144_F767ZI, build-type: Debug },
-
           { target: ST_STM32F769I_DISCOVERY, build-type: MinSizeRel },
           { target: ST_STM32F769I_DISCOVERY, build-type: Debug },
 
@@ -87,9 +84,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
-          submodules: recursive
+          submodules: true
+
+      - name: Update submodules
+        run: |
+          git submodule update --init
 
       - name: Adjust config templates for devcontainer
         run: |
