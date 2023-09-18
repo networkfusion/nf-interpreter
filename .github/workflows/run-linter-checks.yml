@@ -1,0 +1,32 @@
+name: Run linter checks
+
+# The aim here is to keep the code in the right style. We ignore "target" folders as they are generally configuration files
+# and require copy and paste when updating.
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'targets/**'
+      - 'targets-community/**'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'targets/**'
+      - 'targets-community/**'
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+
+jobs:
+  linter-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run linter
+        uses: cpp-linter/cpp-linter-action@v2
+        with:
+          style: file
