@@ -1,4 +1,4 @@
-name: Devcontainer build for FreeRTOS targets
+name: Devcontainer build for FreeRTOS targets # NOTE: we currently build against "All", since there is no optimized container.
 
 on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target changes.
   push:
@@ -61,17 +61,19 @@ jobs:
         run: |
             # Move into the config directory
             pushd config
+            
             # Rename the templates
             mv user-prefs.TEMPLATE.json user-prefs.json
             mv user-tools-repos.TEMPLATE.json user-tools-repos.json
+           
             # Adjust the file content for a devcontainer
             sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+            
             # Move out of the config directory
             popd
 
-      - name: Adjust devcontainer.json (ChibiOS source)
+      - name: Adjust devcontainer.json (FreeRTOS)
         run: |
-            # required fixes for current devcontainer
             # Move into the .devcontainer directory
             pushd .devcontainer
 
