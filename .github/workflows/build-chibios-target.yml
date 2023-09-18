@@ -30,9 +30,6 @@ jobs:
             pushd .devcontainer
             # target the chibios container for a quicker build
             sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.ChibiOS"|g' devcontainer.json
-            # remove unsupported commands
-            sed -i -- 's|"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|//"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",|g' devcontainer.json
-            sed -i -- 's|"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind"|//"source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind",|g' devcontainer.json
             popd
 
       - name: Login to GitHub Container Registry
