@@ -3,7 +3,7 @@ name: Devcontainer build for ESP32-IDF targets # NOTE: we currently build agains
 on: # ESP32-IDF specific changes. We specifically ignore other (RTOS) target changes.
   push:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-esp32-targets.yml'
       - '.devcontainer/sources/Dockerfile.ESP32'
       - '.devcontainer/Dockerfile.ESP32'
@@ -17,7 +17,7 @@ on: # ESP32-IDF specific changes. We specifically ignore other (RTOS) target cha
       - 'CMakePresets.json'
   pull_request:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-esp32-targets.yml'
       - '.devcontainer/sources/Dockerfile.ESP32'
       - '.devcontainer/Dockerfile.ESP32'

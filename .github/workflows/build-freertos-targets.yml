@@ -3,7 +3,7 @@ name: Devcontainer build for FreeRTOS targets # NOTE: we currently build against
 on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target changes.
   push:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-freertos-targets.yml'
       - '.devcontainer/sources/Dockerfile.All'
       - '.devcontainer/Dockerfile.All'
@@ -17,7 +17,7 @@ on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target chan
       - 'CMakePresets.json'
   pull_request:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-freertos-targets.yml'
       - '.devcontainer/sources/Dockerfile.All'
       - '.devcontainer/Dockerfile.All'

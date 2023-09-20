@@ -3,7 +3,7 @@ name: Devcontainer build for AzureRTOS targets
 on: # AzureRTOS specific changes. We specifically ignore other (RTOS) target changes.
   push:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-azurertos-targets.yml'
       - '.devcontainer/sources/Dockerfile.AzureRTOS'
       - '.devcontainer/Dockerfile.AzureRTOS'
@@ -17,7 +17,7 @@ on: # AzureRTOS specific changes. We specifically ignore other (RTOS) target cha
       - 'CMakePresets.json'
   pull_request:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-azurertos-targets.yml'
       - '.devcontainer/sources/Dockerfile.AzureRTOS'
       - '.devcontainer/Dockerfile.AzureRTOS'
@@ -42,8 +42,11 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          { target: SL_STK3701A, build-type: MinSizeRel },
-          { target: SL_STK3701A, build-type: Debug },
+          # { target: SL_STK3701A, build-type: MinSizeRel },
+          # { target: SL_STK3701A, build-type: Debug },
+
+          # { target: SL_STK3701A_REVB, build-type: MinSizeRel },
+          # { target: SL_STK3701A_REVB, build-type: Debug },
 
           # { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
           # { target: ORGPAL_PALTHREE, build-type: Debug },
