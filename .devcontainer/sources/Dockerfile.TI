@@ -52,7 +52,7 @@ RUN apt-get update \
 
 # Create needed directories
 RUN mkdir -p /usr/local/bin/gcc \
-    && mkdir -p /usr/local/bin/titools
+    && mkdir -p /usr/local/bin/titools \
     && mkdir -p /usr/local/gcc/bin
 
 # Clone what is needed for TI
