@@ -3,7 +3,7 @@ name: Devcontainer build for ChibiOS targets
 on: # ChibiOS specific changes. We specifically ignore other (RTOS) target and text file changes.
   push:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-chibios-targets.yml'
       - '.devcontainer/sources/Dockerfile.ChibiOS'
       - '.devcontainer/Dockerfile.ChibiOS'
@@ -17,7 +17,7 @@ on: # ChibiOS specific changes. We specifically ignore other (RTOS) target and t
       - 'CMakePresets.json'
   pull_request:
     paths:
-      - '!*.md'
+      - '!**/*.md'
       - '.github/workflows/build-chibios-targets.yml'
       - '.devcontainer/sources/Dockerfile.ChibiOS'
       - '.devcontainer/Dockerfile.ChibiOS'
@@ -168,7 +168,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Firmware ${{ matrix.target }}-${{ matrix.build-type }}
+          name: Firmware ChibiOS-${{ matrix.target }}-${{ matrix.build-type }}
           path: |
             ./build/*.map
             ./build/*.elf

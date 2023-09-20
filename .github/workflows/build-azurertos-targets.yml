@@ -45,8 +45,8 @@ jobs:
           { target: SL_STK3701A, build-type: MinSizeRel },
           { target: SL_STK3701A, build-type: Debug },
 
-          { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
-          { target: ORGPAL_PALTHREE, build-type: Debug },
+          # { target: ORGPAL_PALTHREE, build-type: MinSizeRel },
+          # { target: ORGPAL_PALTHREE, build-type: Debug },
 
           { target: ST_B_L475E_IOT01A, build-type: MinSizeRel },
           { target: ST_B_L475E_IOT01A, build-type: Debug },
@@ -85,10 +85,10 @@ jobs:
             pushd .devcontainer
 
             # target the AzureRTOS container for a quicker build
-            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.AzureRTOS"|g' devcontainer.json
+            # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.AzureRTOS"|g' devcontainer.json
 
             # But if needed, we could change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
-            # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.AzureRTOS"|g' devcontainer.json
+            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.AzureRTOS"|g' devcontainer.json
 
             # Move out of the .devcontainer directory
             popd
@@ -114,7 +114,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Firmware ${{ matrix.target }}-${{ matrix.build-type }}
+          name: Firmware AzureRTOS-${{ matrix.target }}-${{ matrix.build-type }}
           path: |
             ./build/*.map
             ./build/*.elf
