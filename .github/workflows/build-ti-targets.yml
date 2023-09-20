@@ -38,17 +38,19 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          { target: TI_CC1352R1_LAUNCHXL, build-type: MinSizeRel },
-          { target: TI_CC1352R1_LAUNCHXL, build-type: Debug },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: MinSizeRel },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: Debug },
 
-          { target: TI_CC3220SF_LAUNCHXL, build-type: MinSizeRel },
-          { target: TI_CC3220SF_LAUNCHXL, build-type: Debug },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: MinSizeRel },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: Debug },
 
 
           # Community targets:
                 
-          { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel },
-          { target: TI_CC1352P1_LAUNCHX, build-type: Debug },
+          { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 915 },
+          { target: TI_CC1352P1_LAUNCHXL, build-type: Debug, radio-freq: 915 },
+          { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 868 },
+          { target: TI_CC1352P1_LAUNCHXL, build-type: Debug, radio-freq: 868 },
 
         ]
 
@@ -74,6 +76,9 @@ jobs:
 
             # Adjust the file content for a devcontainer
             sed -i -- 's|"name": "user-tools-repos-container"|"name": "user-tools-repos"|g' user-tools-repos.json
+
+            # Adjust the file content for a valid radio frequency
+            sed -i -- 's|"RADIO_FREQUENCY": "CHANGE_ME_TO_A_VALID_VALUE_868_OR_915"|"RADIO_FREQUENCY": "${{ matrix.radio-freq }}"|g' user-prefs.json
             
             # Move out of the config directory
             popd
@@ -113,7 +118,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Firmware ${{ matrix.target }}-${{ matrix.build-type }}
+          name: Firmware ${{ matrix.target }}-${{ matrix.radio-freq }}-${{ matrix.build-type }}
           path: |
             ./build/*.map
             ./build/*.elf
