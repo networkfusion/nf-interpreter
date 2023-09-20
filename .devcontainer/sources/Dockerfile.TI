@@ -53,6 +53,7 @@ RUN apt-get update \
 # Create needed directories
 RUN mkdir -p /usr/local/bin/gcc \
     && mkdir -p /usr/local/bin/titools
+    && mkdir -p /usr/local/gcc/bin
 
 # Clone what is needed for TI
 RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC32xx_SDK.git --depth 1 ./sources/SimpleLinkCC32 \
@@ -63,7 +64,7 @@ RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC
     && chmod +x ./sources/TI_SysConfig/sysconfig_cli.sh
 
 # set gcc location
-ENV ARM_GCC_PATH=/usr/local/bin/gcc
+ENV ARM_GCC_PATH=/usr/local/gcc/bin
 ENV PATH=$ARM_GCC_PATH/bin:${PATH}
 
 # Copy from our other container
