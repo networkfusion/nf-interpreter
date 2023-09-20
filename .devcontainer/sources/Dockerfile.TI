@@ -52,18 +52,19 @@ RUN apt-get update \
 
 # Create needed directories
 RUN mkdir -p /usr/local/bin/gcc \
-    && mkdir -p /usr/local/bin/titools
+    && mkdir -p /usr/local/bin/titools \
+    && mkdir -p /usr/local/gcc/bin
 
 # Clone what is needed for TI
 RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC32xx_SDK.git --depth 1 ./sources/SimpleLinkCC32 \
     # you can't use the nanoFramework repository as it's Windows only
-    # && git clone --branch main https://github.com/nanoframework/TI_XDCTools.git --depth 1 ./sources/TI_XDCTools \
+    # && git clone --branch 3.62.01.15 https://github.com/nanoframework/TI_XDCTools.git --depth 1 ./sources/TI_XDCTools \
     && git clone --branch 5.40.00.40 https://github.com/nanoframework/SimpleLink_CC13xx_26xx_SDK.git --depth 1 ./sources/SimpleLinkCC13 \
     && git clone --branch 1.10.0 https://github.com/nanoframework/TI_SysConfig.git --depth 1 ./sources/TI_SysConfig \
     && chmod +x ./sources/TI_SysConfig/sysconfig_cli.sh
 
 # set gcc location
-ENV ARM_GCC_PATH=/usr/local/bin
+ENV ARM_GCC_PATH=/usr/local/gcc
 ENV PATH=$ARM_GCC_PATH/bin:${PATH}
 
 # Copy from our other container
