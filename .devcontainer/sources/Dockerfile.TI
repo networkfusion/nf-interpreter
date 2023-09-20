@@ -58,7 +58,7 @@ RUN mkdir -p /usr/local/bin/gcc \
 # Clone what is needed for TI
 RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC32xx_SDK.git --depth 1 ./sources/SimpleLinkCC32 \
     # you can't use the nanoFramework repository as it's Windows only
-    # && git clone --branch 3.62.01.15 https://github.com/nanoframework/TI_XDCTools.git --depth 1 ./sources/TI_XDCTools \
+    # && git clone --branch main https://github.com/nanoframework/TI_XDCTools.git --depth 1 ./sources/TI_XDCTools \
     && git clone --branch 5.40.00.40 https://github.com/nanoframework/SimpleLink_CC13xx_26xx_SDK.git --depth 1 ./sources/SimpleLinkCC13 \
     && git clone --branch 1.10.0 https://github.com/nanoframework/TI_SysConfig.git --depth 1 ./sources/TI_SysConfig \
     && chmod +x ./sources/TI_SysConfig/sysconfig_cli.sh
@@ -69,7 +69,7 @@ ENV PATH=$ARM_GCC_PATH/bin:${PATH}
 
 # Copy from our other container
 COPY --from=downloader /tmp/dc-extracted/gcc $ARM_GCC_PATH
-COPY --from=downloader /tmp/dc-extracted/titools/xdctools_3_61_00_16_core /usr/local/bin/titools
+COPY --from=downloader /tmp/dc-extracted/titools/xdctools_3_62_00_08_core /usr/local/bin/titools
 COPY --from=downloader /tmp/dc-extracted/cmake /usr/bin/cmake
 
 ENV PATH=/usr/bin/cmake/bin:${PATH}
