@@ -63,11 +63,6 @@ RUN git clone --branch mbedtls-2.28.5 https://github.com/ARMmbed/mbedtls.git --d
     && git clone --branch R0.15 https://github.com/abbrev/fatfs.git --depth 1 ./sources/fatfs \
     && git clone --branch nf-build https://github.com/nanoframework/spiffs.git --depth 1 ./sources/spiffs
 
-# The certificate of these are not properly propagated in the base image, ignoring the verification of these clones
-ENV GIT_SSL_NO_VERIFY=1
-RUN git clone --branch STABLE-2_0_3_RELEASE https://git.savannah.nongnu.org/git/lwip.git --depth 1 ./sources/lwip
-ENV GIT_SSL_NO_VERIFY=0
-
 # set gcc location
 ENV ARM_GCC_PATH=/usr/local/bin/gcc
 ENV PATH=$ARM_GCC_PATH/bin:${PATH}
