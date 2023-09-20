@@ -38,19 +38,23 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          # { target: TI_CC1352R1_LAUNCHXL, build-type: MinSizeRel },
-          # { target: TI_CC1352R1_LAUNCHXL, build-type: Debug },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 915 },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: Debug, radio-freq: 915 },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 868 },
+          # { target: TI_CC1352R1_LAUNCHXL, build-type: Debug, radio-freq: 868 },
 
-          # { target: TI_CC3220SF_LAUNCHXL, build-type: MinSizeRel },
-          # { target: TI_CC3220SF_LAUNCHXL, build-type: Debug },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: MinSizeRel, radio-freq: 915 },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: Debug, radio-freq: 915 },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: MinSizeRel, radio-freq: 868 },
+          # { target: TI_CC3220SF_LAUNCHXL, build-type: Debug, radio-freq: 868 },
 
 
           # Community targets:
                 
           { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 915 },
           { target: TI_CC1352P1_LAUNCHXL, build-type: Debug, radio-freq: 915 },
-          { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 868 },
-          { target: TI_CC1352P1_LAUNCHXL, build-type: Debug, radio-freq: 868 },
+          # { target: TI_CC1352P1_LAUNCHXL, build-type: MinSizeRel, radio-freq: 868 },
+          # { target: TI_CC1352P1_LAUNCHXL, build-type: Debug, radio-freq: 868 },
 
         ]
 
@@ -89,7 +93,7 @@ jobs:
             pushd .devcontainer
             
             # target the TI container (rather than "All") for a quicker build.
-            # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.TI"|g' devcontainer.json
+            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "Dockerfile.TI"|g' devcontainer.json
             
             # But if needed, we could change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
             # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.TI"|g' devcontainer.json

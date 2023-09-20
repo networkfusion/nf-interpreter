@@ -4,6 +4,8 @@ on: # ChibiOS specific changes. We specifically ignore other (RTOS) target and t
   push:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-chibios-targets.yml'
       - 'targets/AzureRTOS/**'
       - 'targets-community/AzureRTOS/**'
       - 'targets/ESP32/**'
@@ -16,6 +18,8 @@ on: # ChibiOS specific changes. We specifically ignore other (RTOS) target and t
   pull_request:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-chibios-targets.yml'
       - 'targets/AzureRTOS/**'
       - 'targets-community/AzureRTOS/**'
       - 'targets/ESP32/**'
