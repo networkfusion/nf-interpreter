@@ -4,6 +4,8 @@ on: # AzureRTOS specific changes. We specifically ignore other (RTOS) target cha
   push:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-azurertos-targets.yml'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/ESP32/**'
@@ -16,6 +18,8 @@ on: # AzureRTOS specific changes. We specifically ignore other (RTOS) target cha
   pull_request:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-azurertos-targets.yml'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/ESP32/**'
@@ -85,7 +89,7 @@ jobs:
 
             # But if needed, we could change to the available devcontainer image, so we target the source instead (which takes a little longer to build).
             # sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.AzureRTOS"|g' devcontainer.json
-            
+
             # Move out of the .devcontainer directory
             popd
 

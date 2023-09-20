@@ -4,6 +4,8 @@ on: # ESP32-IDF specific changes. We specifically ignore other (RTOS) target cha
   push:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-esp32-targets.yml'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/AzureRTOS/**'
@@ -16,6 +18,8 @@ on: # ESP32-IDF specific changes. We specifically ignore other (RTOS) target cha
   pull_request:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-esp32-targets.yml'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/AzureRTOS/**'
