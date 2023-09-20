@@ -4,6 +4,11 @@ on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target chan
   push:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-freertos-targets.yml'
+      - '.devcontainer/**'
+      - '!.devcontainer/sources/Dockerfile.All'
+      - '!.devcontainer/devcontainer.json'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/AzureRTOS/**'
@@ -16,6 +21,11 @@ on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target chan
   pull_request:
     paths-ignore:
       - '*.md'
+      - '.github/**'
+      - '!.github/workflows/build-freertos-targets.yml'
+      - '.devcontainer/**'
+      - '!.devcontainer/sources/Dockerfile.All'
+      - '!.devcontainer/devcontainer.json'
       - 'targets/ChibiOS/**'
       - 'targets-community/ChibiOS/**'
       - 'targets/AzureRTOS/**'
