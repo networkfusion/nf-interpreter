@@ -63,7 +63,7 @@ RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC
     && chmod +x ./sources/TI_SysConfig/sysconfig_cli.sh
 
 # set gcc location
-ENV ARM_GCC_PATH=/usr/local/gcc/bin
+ENV ARM_GCC_PATH=/usr/local/gcc
 ENV PATH=$ARM_GCC_PATH/bin:${PATH}
 
 # Copy from our other container

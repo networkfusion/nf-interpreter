@@ -6,11 +6,15 @@ on:
   push:
     paths-ignore:
       - '*.md'
+      - '.devcontainer/**'
+      - '.github/**'
       - 'targets/**'
       - 'targets-community/**'
   pull_request:
     paths-ignore:
       - '*.md'
+      - '.devcontainer/**'
+      - '.github/**'
       - 'targets/**'
       - 'targets-community/**'
   release:
