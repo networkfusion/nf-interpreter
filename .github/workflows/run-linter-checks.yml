@@ -1,22 +1,14 @@
 name: Run linter checks
 
-# The aim here is to keep the code in the right style. We ignore "target" folders as they are generally configuration files
-# and require copy and paste when updating.
+# The aim here is to keep the code in the right style. We only "target" `src` folder files as they are technically the only
+# non configuration files (and have issues maintaining otherwise).
 on:
   push:
-    paths-ignore:
-      - '*.md'
-      - '.devcontainer/**'
-      - '.github/**'
-      - 'targets/**'
-      - 'targets-community/**'
+    paths:
+      - 'src/**'
   pull_request:
-    paths-ignore:
-      - '*.md'
-      - '.devcontainer/**'
-      - '.github/**'
-      - 'targets/**'
-      - 'targets-community/**'
+    paths:
+      - 'src/**'
   release:
     types:
       - created
