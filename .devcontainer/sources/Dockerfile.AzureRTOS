@@ -1,4 +1,4 @@
-FROM ghcr.io/linuxcontainers/debian-slim:latest AS downloader
+FROM ubuntu:latest AS downloader
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils \
     && apt-get install -y \
@@ -22,7 +22,7 @@ RUN wget $CMAKE_SCRIPT \
       && /tmp/cmake-install.sh --skip-license --prefix=/tmp/dc-extracted/cmake \
       && rm /tmp/cmake-install.sh
 
-FROM ghcr.io/linuxcontainers/debian-slim:latest AS devcontainer
+FROM ubuntu:latest AS devcontainer
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
@@ -54,6 +54,7 @@ RUN git clone --branch nf-build https://github.com/nanoframework/STM32CubeL4.git
     && git clone --branch nf-build https://github.com/nanoframework/STM32CubeH7.git --depth 1 ./sources/STM32CubeH7 \
     && git clone --branch v6.1.12_rel --recursive https://github.com/azure-rtos/threadx.git --depth 1 ./sources/AzureRTOS \
     && git clone --branch v6.1.12_rel --recursive https://github.com/azure-rtos/netxduo.git --depth 1 ./sources/NextDuo \
+    && git svn clone http://svn.code.sf.net/p/chibios/code/branches/stable_21.11.x -rHEAD ./sources/ChibiOs \
     && git clone --branch nanoframework https://github.com/nanoframework/ChibiOS-Contrib.git --depth 1 ./sources/ChibiOs-Contrib
 
 # Clone mbedtls and fatfs
@@ -61,10 +62,9 @@ RUN git clone --branch mbedtls-2.28.2 https://github.com/ARMmbed/mbedtls.git --d
     && git clone --branch R0.14b https://github.com/abbrev/fatfs.git --depth 1 ./sources/fatfs \
     && git clone --branch nf-build https://github.com/nanoframework/spiffs.git --depth 1 ./sources/spiffs
 
-# The certificate of these is not properly propagated in the base image, ignoring the verification of these clones
+# The certificate of these are not properly propagated in the base image, ignoring the verification of these clones
 ENV GIT_SSL_NO_VERIFY=1
-RUN git clone --branch STABLE-2_0_3_RELEASE https://git.savannah.nongnu.org/git/lwip.git --depth 1 ./sources/lwip \
-    && git svn clone http://svn.code.sf.net/p/chibios/code/branches/stable_21.11.x -rHEAD ./sources/ChibiOs
+RUN git clone --branch STABLE-2_0_3_RELEASE https://git.savannah.nongnu.org/git/lwip.git --depth 1 ./sources/lwip
 ENV GIT_SSL_NO_VERIFY=0
 
 # set gcc location
