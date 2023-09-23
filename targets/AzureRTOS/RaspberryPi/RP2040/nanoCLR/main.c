@@ -13,7 +13,7 @@ extern void Core1_Entry_NonRTOS();
 int main(void) {
   Initialize_Board();
   g_waitForDebuggerRequested = BoardUserButton_Pressed();
-  multicore_launch_core1(Core1_Entry_NonRTOS);
+ // multicore_launch_core1(Core1_Entry_NonRTOS);
   Startup_Rtos();
 }
 
