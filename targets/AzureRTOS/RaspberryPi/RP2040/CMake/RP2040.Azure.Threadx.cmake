@@ -32,8 +32,8 @@ list(APPEND AZURE_THREADX_INCLUDES
 list(APPEND THREADX_SOURCES
             ${CMAKE_SOURCE_DIR}/targets/AzureRTOS/RaspberryPi/RP2040/nanoCLR/Startup/tx_initialize_low_level.S
 
-            ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_context_restore.s
-            ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_context_save.s
+            ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_context_restore.S
+            ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_context_save.S
             ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_interrupt_control.S
             ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_interrupt_disable.S
             ${azure_rtos_SOURCE_DIR}/ports/cortex_m0/gnu/src/tx_thread_interrupt_restore.S
