@@ -4,9 +4,9 @@
 // See LICENSE file in the project root for full license information.
 //
 #include "targetHAL_board.h"
-#include "hardware\gpio.h"
-#include "pico\binary_info\code.h"
-#include "pico\multicore.h"
+#include "hardware/gpio.h"
+#include "pico/binary_info/code.h"
+#include "pico/multicore.h"
 #include "target_board.h"
 
 uint8_t keyA = 15;
