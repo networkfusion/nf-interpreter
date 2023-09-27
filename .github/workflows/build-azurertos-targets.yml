@@ -43,7 +43,7 @@ jobs:
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
           # { target: SL_STK3701A, build-type: MinSizeRel },
-          # { target: SL_STK3701A, build-type: Debug },
+          { target: SL_STK3701A, build-type: Debug },
 
           # { target: SL_STK3701A_REVB, build-type: MinSizeRel },
           # { target: SL_STK3701A_REVB, build-type: Debug },

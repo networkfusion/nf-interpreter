@@ -16,7 +16,7 @@ set(GECKO_SDK_BSP TRUE CACHE BOOL "Setting Gecko BSP flag ")
 
 add_subdirectory(${azure_rtos_SOURCE_DIR} threadx)
 # add_subdirectory(${azure_rtos_filex_SOURCE_DIR} filex)
-# add_subdirectory(${azure_rtos_netxduo_SOURCE_DIR} netxduo)
+# add_subdirectory(${azure_rtos_netxduo_SOURCE_DIR} NetxDuo)
 # add_subdirectory(${azure_rtos_usbx_SOURCE_DIR} usbx)
 
 nf_setup_target_build(
