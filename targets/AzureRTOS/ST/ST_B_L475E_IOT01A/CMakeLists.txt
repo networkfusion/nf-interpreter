@@ -17,7 +17,7 @@ set(NXD_ENABLE_FILE_SERVERS OFF CACHE BOOL "Disable fileX dependency by netxduo"
 set(STM32_DRIVER_TARGET_DEVICE STM32L475xx CACHE BOOL "Set STM32 target for HAL Driver")
 
 add_subdirectory(${azure_rtos_SOURCE_DIR} threadx)
-add_subdirectory(${azure_rtos_netxduo_SOURCE_DIR} netxduo)
+add_subdirectory(${azure_rtos_netxduo_SOURCE_DIR} NetxDuo)
 
 nf_setup_target_build(
     HAS_NANOBOOTER
