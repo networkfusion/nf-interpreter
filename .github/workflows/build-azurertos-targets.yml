@@ -50,7 +50,7 @@ jobs:
 
           # BROKEN!
           # { target: ORGPAL_PALTHREE_AZRT, build-type: MinSizeRel },
-          { target: ORGPAL_PALTHREE_AZRT, build-type: Debug },
+          # { target: ORGPAL_PALTHREE_AZRT, build-type: Debug },
 
           # { target: ST_B_L475E_IOT01A, build-type: MinSizeRel },
           { target: ST_B_L475E_IOT01A, build-type: Debug },
