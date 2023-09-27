@@ -4,7 +4,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-#include <hal.h>
+#include "hal.h"
 
 /* Virtual serial port over USB.*/
 SerialUSBDriver SDU1;
