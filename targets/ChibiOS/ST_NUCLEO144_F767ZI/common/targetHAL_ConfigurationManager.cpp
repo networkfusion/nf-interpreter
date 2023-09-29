@@ -42,7 +42,7 @@ bool InitialiseNetworkDefaultConfig(HAL_Configuration_NetworkInterface *pconfig,
     pconfig->MacAddress[5] = 0xD1;
 #else
     // Set a locally administered MAC
-    pconfig->MacAddress[0] = *(uint32_t*)DEVICE_ID1_ADDR >> 8 & 0x02FFFFFFuL; // FIXME: second byte must be 2,6,A,E
+    pconfig->MacAddress[0] = 0x02; //*(uint32_t*)DEVICE_ID1_ADDR >> 8 & 0x02FFFFFFuL; // FIXME: second byte must be 2,6,A,E
     pconfig->MacAddress[1] = *(uint32_t*)DEVICE_ID1_ADDR & 0x0000FFFFuL;
     pconfig->MacAddress[2] = *(uint32_t*)DEVICE_ID2_ADDR >> 16;
     pconfig->MacAddress[3] = *(uint32_t*)DEVICE_ID2_ADDR & 0x0000FFFFuL;
