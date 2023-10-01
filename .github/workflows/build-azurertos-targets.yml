@@ -55,8 +55,8 @@ jobs:
           # { target: ST_B_L475E_IOT01A, build-type: MinSizeRel },
           # { target: ST_B_L475E_IOT01A, build-type: Debug },
 
-          { target: RP2040-2MB, build-type: MinSizeRel },
-          { target: RP2040-2MB, build-type: Debug },
+          { target: RP2040, build-type: MinSizeRel },
+          { target: RP2040, build-type: Debug },
 
         ]
 
