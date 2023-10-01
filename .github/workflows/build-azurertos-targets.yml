@@ -128,5 +128,8 @@ jobs:
             ./build/*.hex
             ./build/*.bin
             ./build/*.dfu
-            ./build/targets/**/*
+            ./build/targets/**/${{ matrix.target }}/*.uf2
+            ./build/targets/**/${{ matrix.target }}/*.elf
+            ./build/targets/**/${{ matrix.target }}/*.hex
+            ./build/targets/**/${{ matrix.target }}/*.dis
             
