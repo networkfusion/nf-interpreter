@@ -3,19 +3,32 @@
 	// Adjust this file to choose the platform you want using the prebuild containers:
 	// - Dockerfile.All = you can build anything but it's a very large container
 	// - Dockerfile.AzureRTOS = for AzureRTOS targets
+	// - Dockerfile.AzureRTOS.RPI = for AzureRTOS Raspberry PI targets
 	// - Dockerfile.ChibiOS = for ChibiOS based targets (ex: STM32, Netduino, Orgpal)
 	// - Dockerfile.ESP32 = for ESP32 targets
 	// - Dockerfile.TI = for TI targets
 	// If you prefer, you can use the source files and adjust them where they are located,
 	// To do this, prefix 'sources'. e.g. 'sources/Dockerfile.All'.
 	// This will allow you to customize and build the container source and add anything you may need on top.
-	"dockerFile": "sources/Dockerfile.AzureRTOS",
-	"context": ".",
+	
+	"build": {
+		"dockerfile": "sources/Dockerfile.AzureRTOS.RPI",
+		"context": "."
+	},
+	"runArgs": [
+		// "--cap-add=SYS_PTRACE",
+		// "--security-opt",
+		// "seccomp=unconfined",
+		"--privileged"
+	],
 	"mounts": [
 		// Bind the Unix socket the Docker daemon listens on by default
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
 		// Keep command history 
 		"source=nano-bashhistory,target=/home/vscode/commandhistory,type=volume",
+		// // Bind the USB devices
+		// "type=bind,source=/dev/bus/usb,target=/dev/bus/usb",
+		// "type=bind,source=/dev/ttyACM0,target=/dev/ttyACM0",
 		// OPTIONAL: Mount .azure folder for seamless az cli auth
 		// "source=${env:HOME}${env:USERPROFILE}/.azure,target=/home/vscode/.azure,type=bind"
 	],
