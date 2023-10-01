@@ -751,6 +751,18 @@ struct GraphicsDriver
         return (r << 11) | (g << 5) | b;
     }
 
+    __inline static CLR_UINT8 ColorRValue(CLR_UINT32 color)
+    {
+        return (color & 0xFF0000) >> 16;
+    }
+    __inline static CLR_UINT8 ColorGValue(CLR_UINT32 color)
+    {
+        return (color & 0x00FF00) >> 8;
+    }
+    __inline static CLR_UINT8 ColorBValue(CLR_UINT32 color)
+    {
+        return color & 0x0000FF;
+    }
     __inline static CLR_UINT32 ColorFromRGB(CLR_UINT8 r, CLR_UINT8 g, CLR_UINT8 b)
     {
         return (b << 16) | (g << 8) | r;
