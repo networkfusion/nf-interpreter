@@ -61,7 +61,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib gcc g++ \
     python3 pkg-config gdb-multiarch automake autoconf build-essential \
-    texinfo libtool libftdi-dev libusb-1.0-0-dev libhidapi-dev wget ca-certificates
+    texinfo libtool libftdi-dev libusb-1.0-0-dev libhidapi-dev wget ca-certificates \
+    usbutils
             
 
 RUN mkdir -p /pico
