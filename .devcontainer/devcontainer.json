@@ -40,7 +40,10 @@
 				"cmake.configureSettings": {
 					"CMAKE_MAKE_PROGRAM":"/usr/bin/ninja"
 				},
-				"cmake.configureOnOpen": false
+				"cmake.configureOnOpen": false,
+				"git.ignoredRepositories": [
+                    "targets-community"
+                ]
 			},
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
