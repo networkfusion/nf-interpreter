@@ -151,7 +151,7 @@ jobs:
       - name: Build ${{ matrix.target }} ${{ matrix.build-type }} Firmware
         uses: devcontainers/ci@v0.3
         with:
-          # The ChibiOS container
+          # The ESP32 container
           cacheFrom: ghcr.io/nanoframework/dev-container-esp32
           push: never
           runCmd: |
