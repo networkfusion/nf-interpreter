@@ -1030,6 +1030,8 @@ HRESULT Library_corlib_native_System_Number::
         }
         else
         {
+            // internal error occurred
+            ret = NULL;
             NANOCLR_SET_AND_LEAVE(CLR_E_FAIL);
         }
     }
