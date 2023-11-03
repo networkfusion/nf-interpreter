@@ -941,8 +941,6 @@ HRESULT Library_corlib_native_System_Number::
     NATIVE_PROFILE_CLR_CORE();
     NANOCLR_HEADER();
 
-    char *ret;
-
     CLR_RT_HeapBlock *value;
     bool isInteger;
     char *format;
