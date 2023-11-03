@@ -42,7 +42,7 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          { target: NXP_MIMXRT1060_EVK, build-type: MinSizeRel },
+          # { target: NXP_MIMXRT1060_EVK, build-type: MinSizeRel },
           { target: NXP_MIMXRT1060_EVK, build-type: Debug },
 
 
