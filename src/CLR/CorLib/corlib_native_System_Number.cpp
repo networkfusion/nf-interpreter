@@ -974,7 +974,7 @@ HRESULT Library_corlib_native_System_Number::
 
     if (!GetFormatSpec(format, isInteger, &formatChar, &precision))
     {
-        ret = format;
+        NANOCLR_SET_AND_LEAVE(stack.SetResult_String(format));
     }
     else
     {
@@ -1026,7 +1026,6 @@ HRESULT Library_corlib_native_System_Number::
         if (resultLength > 0)
         {
             NANOCLR_SET_AND_LEAVE(stack.SetResult_String(resultType));
-            NANOCLR_NOCLEANUP();
         }
         else
         {
@@ -1034,6 +1033,5 @@ HRESULT Library_corlib_native_System_Number::
         }
     }
 
-    NANOCLR_SET_AND_LEAVE(stack.SetResult_String(ret));
     NANOCLR_NOCLEANUP();
 }
