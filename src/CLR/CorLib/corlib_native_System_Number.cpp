@@ -941,7 +941,7 @@ HRESULT Library_corlib_native_System_Number::
     NATIVE_PROFILE_CLR_CORE();
     NANOCLR_HEADER();
 
-    char *ret = NULL;
+    char *ret;
 
     CLR_RT_HeapBlock *value;
     bool isInteger;
@@ -971,6 +971,7 @@ HRESULT Library_corlib_native_System_Number::
 
     char formatChar;
     int precision;
+    char resultType[FORMAT_RESULT_BUFFER_SIZE];
 
     if (!GetFormatSpec(format, isInteger, &formatChar, &precision))
     {
@@ -978,8 +979,6 @@ HRESULT Library_corlib_native_System_Number::
     }
     else
     {
-        char resultType[FORMAT_RESULT_BUFFER_SIZE];
-
         int resultLength;
         switch (formatChar)
         {
