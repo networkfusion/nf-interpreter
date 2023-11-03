@@ -971,7 +971,6 @@ HRESULT Library_corlib_native_System_Number::
 
     char formatChar;
     int precision;
-    char resultType[FORMAT_RESULT_BUFFER_SIZE];
 
     if (!GetFormatSpec(format, isInteger, &formatChar, &precision))
     {
@@ -979,6 +978,7 @@ HRESULT Library_corlib_native_System_Number::
     }
     else
     {
+        char resultType[FORMAT_RESULT_BUFFER_SIZE];
         int resultLength;
         switch (formatChar)
         {
@@ -1025,7 +1025,8 @@ HRESULT Library_corlib_native_System_Number::
 
         if (resultLength > 0)
         {
-            ret = resultType;
+            NANOCLR_SET_AND_LEAVE(stack.SetResult_String(resultType));
+            NANOCLR_NOCLEANUP();
         }
         else
         {
