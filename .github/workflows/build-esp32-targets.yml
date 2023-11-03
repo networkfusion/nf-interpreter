@@ -75,8 +75,8 @@ jobs:
           # { target: M5Core, build-type: MinSizeRel },
           # { target: M5Core, build-type: Debug },
 
-          # { target: M5Core2, build-type: MinSizeRel },
-          # { target: M5Core2, build-type: Debug },
+          { target: M5Core2, build-type: MinSizeRel },
+          { target: M5Core2, build-type: Debug },
 
           # { target: AtomS3, build-type: MinSizeRel },
           # { target: AtomS3, build-type: Debug },

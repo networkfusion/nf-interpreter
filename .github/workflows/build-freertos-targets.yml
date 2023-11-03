@@ -42,7 +42,7 @@ jobs:
 
       matrix: # Add the target and build type you wish to generate firmware for:
         include: [
-          # { target: NXP_MIMXRT1060_EVK, build-type: MinSizeRel },
+          { target: NXP_MIMXRT1060_EVK, build-type: MinSizeRel },
           { target: NXP_MIMXRT1060_EVK, build-type: Debug },
 
 
@@ -82,6 +82,7 @@ jobs:
             pushd .devcontainer
 
             # fix if needed.
+            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "sources/Dockerfile.All"|g' devcontainer.json
 
             # Move out of the .devcontainer directory
             popd
