@@ -4,9 +4,9 @@ on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target chan
   push:
     paths:
       - '!**/*.md'
-      - '.github/workflows/build-freertos-targets.yml'
-      - '.devcontainer/sources/Dockerfile.All'
-      - '.devcontainer/Dockerfile.All'
+      - '.github/workflows/build-freertos-nxp-targets.yml'
+      - '.devcontainer/sources/Dockerfile.FreeRTOS.NXP'
+      - '.devcontainer/Dockerfile.FreeRTOS.NXP'
       - '.devcontainer/devcontainer.json'
       - 'targets/FreeRTOS/**'
       - 'targets-community/FreeRTOS/**'
@@ -18,9 +18,9 @@ on: # FreeRTOS specific changes. We specifically ignore other (RTOS) target chan
   pull_request:
     paths:
       - '!**/*.md'
-      - '.github/workflows/build-freertos-targets.yml'
-      - '.devcontainer/sources/Dockerfile.All'
-      - '.devcontainer/Dockerfile.All'
+      - '.github/workflows/build-freertos-nxp-targets.yml'
+      - '.devcontainer/sources/Dockerfile.FreeRTOS.NXP'
+      - '.devcontainer/Dockerfile.FreeRTOS.NXP'
       - '.devcontainer/devcontainer.json'
       - 'targets/FreeRTOS/**'
       - 'targets-community/FreeRTOS/**'
@@ -82,6 +82,7 @@ jobs:
             pushd .devcontainer
 
             # fix if needed.
+            sed -i -- 's|"dockerFile": "Dockerfile.All"|"dockerFile": "./sources/Dockerfile.FreeRTOS.NXP"|g' devcontainer.json
 
             # Move out of the .devcontainer directory
             popd
@@ -96,8 +97,8 @@ jobs:
       - name: Build ${{ matrix.target }} ${{ matrix.build-type }} Firmware
         uses: devcontainers/ci@v0.3
         with:
-          # The ChibiOS container
-          cacheFrom: ghcr.io/nanoframework/dev-container-all
+          # The FreeRTOS container
+          # cacheFrom: sources/Dockerfile.FreeRTOS.NXP # ubuntu:latest # ghcr.io/nanoframework/dev-container-freertos
           push: never
           runCmd: |
             # Build target:
