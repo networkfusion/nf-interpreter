@@ -158,7 +158,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           # The ChibiOS container
-          cacheFrom: ghcr.io/nanoframework/dev-container-chibios
+          cacheFrom: ghcr.io/nanoframework/dev-container-chibios:v1.23
           push: never
           runCmd: |
             # Build target:
