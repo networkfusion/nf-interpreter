@@ -107,7 +107,7 @@ ENV ARM_GCC_PATH=/usr/local/bin/gcc
 ENV PATH=$ARM_GCC_PATH/bin:${PATH}
 
 # Copy from our other container
-COPY --from=downloader /tmp/dc-extracted/gcc $ARM_GCC_PATH
+COPY --from=downloader /tmp/dc-extracted/gcc/arm-none-eabi-gcc $ARM_GCC_PATH
 COPY --from=downloader /tmp/dc-extracted/titools/xdctools_3_62_00_08_core /usr/local/bin/titools
 COPY --from=downloader /tmp/dc-extracted/cmake /usr/bin/cmake
 
