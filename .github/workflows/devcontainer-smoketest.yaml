@@ -6,9 +6,9 @@ on:
       - '.devcontainer/sources/*'
       - '.github/workflows/*'
   push:
-    paths:
-      - '.devcontainer/sources/*'
-      - '.github/workflows/*'
+    # paths:
+    #   - '.devcontainer/sources/*'
+    #   - '.github/workflows/*'
 
 jobs:
   build-target:
