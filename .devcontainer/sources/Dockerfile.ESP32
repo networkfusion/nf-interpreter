@@ -5,7 +5,9 @@ RUN apt-get update \
     curl \
     bzip2 \
     unzip \
-    wget 
+    wget
+
+RUN mkdir -p /tmp/dc-extracted/cmake
 
 ARG CMAKE_VERSION=3.27.6
 ARG CMAKE_SCRIPT=https://github.com/Kitware/CMake/releases/download/v$CMAKE_VERSION/cmake-$CMAKE_VERSION-linux-x86_64.sh
