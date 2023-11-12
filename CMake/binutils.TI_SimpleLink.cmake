@@ -315,20 +315,20 @@ macro(nf_add_platform_sysconfig_steps ti_device ti_device_family)
         COMMENT "Copy TI-RTOS configuration file to build directory" 
     )
 
-    if(CMAKE_HOST_SYSTEM_NAME STREQUAL Windows)
+#    if(CMAKE_HOST_SYSTEM_NAME STREQUAL Windows)
         add_custom_target(
             TIRTOS_CONFIG        
             COMMAND ${ti_xdctools_SOURCE_DIR}/xs.exe --xdcpath="${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/source\;${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/kernel/tirtos/packages" xdc.tools.configuro -o configPkg -t gnu.targets.arm.M4F -p ti.platforms.simplelink:${ti_device} -r release -c "${ARM_TOOLCHAIN_PATH}" --compileOptions " -DDeviceFamily_${ti_device_family} " "${CMAKE_CURRENT_BINARY_DIR}/${TI_RTOS_CONFIG_FILE}"    
             COMMENT "Generate TI-RTOS configuration" 
         )
-    else()
-        add_custom_target(
-            TIRTOS_CONFIG
-            COMMAND ${ti_xdctools_SOURCE_DIR}/xs --xdcpath="${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/source\;${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/kernel/tirtos/packages" xdc.tools.configuro -o configPkg -t gnu.targets.arm.M4F -p ti.platforms.simplelink:${ti_device} -r release -c "${ARM_TOOLCHAIN_PATH}" --compileOptions " -DDeviceFamily_${ti_device_family} " "${CMAKE_CURRENT_BINARY_DIR}/${TI_RTOS_CONFIG_FILE}"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}    
-            COMMENT "Generate TI-RTOS configuration" 
-        )
-    endif()
+#    else()
+#        add_custom_target(
+#            TIRTOS_CONFIG
+#            COMMAND ${ti_xdctools_SOURCE_DIR}/xs --xdcpath="${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/source\;${simplelinkcc13xx_26xxsdk_SOURCE_DIR}/kernel/tirtos/packages" xdc.tools.configuro -o configPkg -t gnu.targets.arm.M4F -p ti.platforms.simplelink:${ti_device} -r release -c "${ARM_TOOLCHAIN_PATH}" --compileOptions " -DDeviceFamily_${ti_device_family} " "${CMAKE_CURRENT_BINARY_DIR}/${TI_RTOS_CONFIG_FILE}"
+#            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}    
+#            COMMENT "Generate TI-RTOS configuration" 
+#        )
+#    endif()
 endmacro()
 
 # macro to setup the build for a target
