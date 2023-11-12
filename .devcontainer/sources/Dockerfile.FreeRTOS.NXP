@@ -66,10 +66,6 @@ COPY --from=downloader /tmp/dc-extracted/cmake /usr/bin/cmake
 
 ENV PATH=/usr/bin/cmake/bin:${PATH}
 
-# Creating static link python for pyhton3
-RUN ln -fs /usr/bin/python3 /usr/bin/python \
-    && pip3 install pyserial
-
 # Clean up downloaded files
 RUN apt-get autoremove -y \
     && apt-get clean -y \
