@@ -62,7 +62,7 @@ RUN git clone --branch 4.10.00.07 https://github.com/nanoframework/SimpleLink_CC
     && chmod +x ./sources/TI_SysConfig/sysconfig_cli.sh
 
 # set gcc location
-ARG TMP_GCC_PATH=/usr/local/bin/gcc
+ARG TMP_GCC_PATH=/usr/local/gcc # This path is used due to issues with current cmake for TI binutils
 ENV ARM_GCC_PATH=$TMP_GCC_PATH/bin
 
 # Copy from our other container

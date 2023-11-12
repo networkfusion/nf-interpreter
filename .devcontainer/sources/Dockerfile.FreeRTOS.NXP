@@ -37,21 +37,12 @@ RUN apt-get update \
     && apt-get install -y \
     git \
     git-lfs \
-    git-svn \
-    subversion \
     clang-format \
     curl \
     ninja-build \
     srecord \
     nodejs \
     libffi-dev
-
-# Set Python 3.10 as the default version
-RUN apt-get install -y software-properties-common \
-    && add-apt-repository ppa:deadsnakes/ppa \
-    && apt-get update \
-    && apt-get install -y python3.10 \
-    python3-pip
 
 # Create needed directories
 RUN mkdir -p /usr/local/bin/gcc
