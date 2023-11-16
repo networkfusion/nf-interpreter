@@ -303,8 +303,8 @@ macro(nf_add_platform_sysconfig_steps ti_device ti_device_family)
     endif()
 
     # Get the parent GCC ARM path (without last "\bin" directory)
-    file(TO_CMAKE_PATH $ENV{ARM_GCC_PATH} ARM_TOOLCHAIN_PATH)
-    cmake_path(GET ${ARM_TOOLCHAIN_PATH} PARENT_PATH ARM_TOOLCHAIN_PATH_WITHOUT_BIN)
+    # "\/bin(?!.*\/bin)" "" ARM_TOOLCHAIN_PATH_WITHOUT_BIN ${ARM_TOOLCHAIN_PATH})
+    cmake_path(GET ARM_TOOLCHAIN_PATH PARENT_PATH ARM_TOOLCHAIN_PATH_WITHOUT_BIN)
 
     # need to use a specific target because target dependency PRE_BUILT doesn't work on NINJA build files
 
