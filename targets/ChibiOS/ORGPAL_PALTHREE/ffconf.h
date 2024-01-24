@@ -80,7 +80,7 @@
 / Locale and Namespace Configurations
 /---------------------------------------------------------------------------*/
 
-#define FF_CODE_PAGE 850
+#define FF_CODE_PAGE 437
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect code page setting can cause a file open failure.
 /
@@ -118,7 +118,7 @@
 /   3: Enable LFN with dynamic working buffer on the HEAP.
 /
 /  To enable the LFN, ffunicode.c needs to be added to the project. The LFN function
-/  requiers certain internal working buffer occupies (FF_MAX_LFN + 1) * 2 bytes and
+/  requires certain internal working buffer occupies (FF_MAX_LFN + 1) * 2 bytes and
 /  additional (FF_MAX_LFN + 44) / 15 * 32 bytes when exFAT is enabled.
 /  The FF_MAX_LFN defines size of the working buffer in UTF-16 code unit and it can
 /  be in range of 12 to 255. It is recommended to be set it 255 to fully support LFN
@@ -185,7 +185,7 @@
 #define FF_MAX_SS 512
 /* This set of options configures the range of sector size to be supported. (512,
 /  1024, 2048 or 4096) Always set both 512 for most systems, generic memory card and
-/  harddisk, but a larger value may be required for on-board flash memory and some
+/  hard disk, but a larger value may be required for on-board flash memory and some
 /  type of optical media. When FF_MAX_SS is larger than FF_MIN_SS, FatFs is configured
 /  for variable sector size mode and disk_ioctl() function needs to implement
 /  GET_SECTOR_SIZE command. */
@@ -194,7 +194,7 @@
 /* This option switches support for 64-bit LBA. (0:Disable or 1:Enable)
 /  To enable the 64-bit LBA, also exFAT needs to be enabled. (FF_FS_EXFAT == 1) */
 
-#define FF_MIN_GPT 0x100000000
+#define FF_MIN_GPT 0x10000000
 /* Minimum number of sectors to switch GPT as partitioning format in f_mkfs and
 /  f_fdisk function. 0x100000000 max. This option has no effect when FF_LBA64 == 0. */
 
@@ -213,7 +213,7 @@
 /  Instead of private sector buffer eliminated from the file object, common sector
 /  buffer in the filesystem object (FATFS) is used for the file data transfer. */
 
-#define FF_FS_EXFAT 0
+#define FF_FS_EXFAT 1
 /* This option switches support for exFAT filesystem. (0:Disable or 1:Enable)
 /  To enable exFAT, also LFN needs to be enabled. (FF_USE_LFN >= 1)
 /  Note that enabling exFAT discards ANSI C (C89) compatibility. */
