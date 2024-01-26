@@ -150,7 +150,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::ReadNative___I4__STRI
     const char *fileName = stack.Arg2().RecoverString();
     CLR_INT64 position = stack.Arg3().NumericByRef().s8;
     CLR_RT_HeapBlock_Array *pArray = stack.Arg4().DereferenceArray();
-    CLR_UINT32 length = stack.Arg5().NumericByRef().s4;
+    CLR_INT32 length = stack.Arg5().NumericByRef().s4;
 
     CLR_UINT32 readCount = 0;
     FIL file;
