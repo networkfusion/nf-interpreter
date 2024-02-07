@@ -10,6 +10,7 @@ FetchContent_GetProperties(chibios-contrib)
 
 # List of the required FatFs include files.
 list(APPEND CHIBIOS_FATFS_INCLUDE_DIRS ${fatfs_SOURCE_DIR}/source)
+list(APPEND CHIBIOS_FATFS_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/targets/ChibiOS/_FatFS)
 
 
 set(FATFS_SRCS
@@ -27,7 +28,7 @@ foreach(SRC_FILE ${FATFS_SRCS})
 
     find_file(FATFS_SRC_FILE ${SRC_FILE}
         PATHS 
-            ${CMAKE_SOURCE_DIR}/targets/ChibiOS/_FatFS/
+            ${CMAKE_SOURCE_DIR}/targets/ChibiOS/_FatFS
             ${fatfs_SOURCE_DIR}/source
 
         CMAKE_FIND_ROOT_PATH_BOTH

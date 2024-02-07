@@ -6,7 +6,7 @@
 /*-----------------------------------------------------------------------*/
 
 #include "hal.h"
-#include "ffconf.h"
+#include <ffconf.h>
 #include "ff.h"     /* Obtains integer types */
 #include "diskio.h" /* Declarations of disk functions */
 
@@ -41,7 +41,7 @@ extern RTCDriver RTCD1;
 #define SDC 0
 
 /*-----------------------------------------------------------------------*/
-/* Inidialize a Drive                                                    */
+/* Initialize a Drive                                                    */
 
 DSTATUS disk_initialize(BYTE pdrv /* Physical drive number (0..) */
 )

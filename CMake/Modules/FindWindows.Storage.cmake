@@ -12,7 +12,7 @@ set(BASE_PATH_FOR_THIS_MODULE "${BASE_PATH_FOR_CLASS_LIBRARIES_MODULES}/Windows.
 
 # set include directories
 if(RTOS_CHIBIOS_CHECK)
-    #list(APPEND Windows.Storage_INCLUDE_DIRS ${chibios_SOURCE_DIR}/ext/fatfs/src)
+    list(APPEND Windows.Storage_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/targets/ChibiOS/_FatFS)
     list(APPEND Windows.Storage_INCLUDE_DIRS ${fatfs_SOURCE_DIR}/source)
 elseif(RTOS_ESP32_CHECK)
     # TODO: this needs to be changed so it's not platform & target dependent
