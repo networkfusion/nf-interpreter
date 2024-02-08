@@ -8,7 +8,7 @@
 /  Configurations of FatFs Module
 /---------------------------------------------------------------------------*/
 
-#define FFCONF_DEF 80286 /* Revision ID */
+#define FFCONF_DEF 86631 /* Revision ID */
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -241,6 +241,12 @@
 /  bit1=0: Use last allocated cluster number in the FSINFO if available.
 /  bit1=1: Do not trust last allocated cluster number in the FSINFO.
 */
+
+#define FF_SYNC_t         semaphore_t*
+/* 
+/  The FF_SYNC_t defines O/S dependent sync object type. e.g. HANDLE, ID, OS_EVENT*,
+/  SemaphoreHandle_t and etc. A header file for O/S definitions needs to be
+/  included somewhere in the scope of ff.h. */
 
 #define FF_FS_LOCK 0
 /* The option FF_FS_LOCK switches file lock function to control duplicated file open

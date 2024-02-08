@@ -1,121 +1,84 @@
-// clang-format off
+/*
+    ChibiOS - Copyright (C) 2006..2018 Giovanni Di Sirio
 
-// ChibiOS version can be found at:
-// https://github.com/ArduPilot/ChibiOS.svn/blob/master/os/various/fatfs_bindings/fatfs_syscall.c
-// but currently locked to R0.14b.
-// This file aligns with compatibility with R0.15+
-// And also allows use of nF specific capabilities.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-/*------------------------------------------------------------------------*/
-/* A Sample Code of User Provided OS Dependent Functions for FatFs        */
-/*------------------------------------------------------------------------*/
+        http://www.apache.org/licenses/LICENSE-2.0
 
-#include <hal.h>
-#include <ff.h>
-
-#if FF_USE_LFN == 3	/* Use dynamic memory allocation */
-
-#include "nanoHAL_v2.h"
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
 
 /*------------------------------------------------------------------------*/
-/* Allocate/Free a Memory Block                                           */
-/*------------------------------------------------------------------------*/
-
-void *ff_memalloc (	/* Returns pointer to the allocated memory block (null if not enough core) */
-    UINT msize		/* Number of bytes to allocate */
-)
-{
-    // NOTE: we no longer choose to use the ChibiOs memory allocation functions.
-    //return chHeapAlloc(NULL, msize);
-    return platform_malloc(msize); /* Allocate a new memory block */
-}
-
-
-void ff_memfree (
-    void *mblock	/* Pointer to the memory block to free (no effect if null) */
-)
-{
-    // NOTE: we no longer choose to use the ChibiOs memory allocation functions.
-    //chHeapFree(mblock);
-    platform_free(mblock); /* Free the memory block */
-}
-
-#endif
-
-
-
-#if FF_FS_REENTRANT	/* Mutal exclusion */
-/*------------------------------------------------------------------------*/
-/* Definitions of Mutex                                                   */
+/* Sample code of OS dependent controls for FatFs                         */
+/* (C)ChaN, 2014                                                          */
 /*------------------------------------------------------------------------*/
 
 #include "hal.h"
+#include "ff.h"
 
-static semaphore_t Mutex[FF_VOLUMES + 1];	/* Table of mutex handle */
-
+#if FF_FS_REENTRANT
+/*------------------------------------------------------------------------*/
+/* Static array of Synchronization Objects                                */
+/*------------------------------------------------------------------------*/
+static semaphore_t ff_sem[FF_VOLUMES];
 
 /*------------------------------------------------------------------------*/
-/* Create a Mutex                                                         */
+/* Create a Synchronization Object                                        */
 /*------------------------------------------------------------------------*/
-/* This function is called in f_mount function to create a new mutex
-/  or semaphore for the volume. When a 0 is returned, the f_mount function
-/  fails with FR_INT_ERR.
-*/
+int ff_cre_syncobj(BYTE vol, FF_SYNC_t *sobj) {
 
-int ff_mutex_create (	/* Returns 1:Function succeeded or 0:Could not create the mutex */
-    int vol				/* Mutex ID: Volume mutex (0 to FF_VOLUMES - 1) or system mutex (FF_VOLUMES) */
-)
-{
-    chSemObjectInit(&Mutex[vol], 1);
-    return TRUE;
+  *sobj = &ff_sem[vol];
+  chSemObjectInit(*sobj, 1);
+  return TRUE;
 }
 
-
 /*------------------------------------------------------------------------*/
-/* Delete a Mutex                                                         */
+/* Delete a Synchronization Object                                        */
 /*------------------------------------------------------------------------*/
-/* This function is called in f_mount function to delete a mutex or
-/  semaphore of the volume created with ff_mutex_create function.
-*/
+int ff_del_syncobj(FF_SYNC_t sobj) {
 
-void ff_mutex_delete (	/* Returns 1:Function succeeded or 0:Could not delete due to an error */
-    int vol				/* Mutex ID: Volume mutex (0 to FF_VOLUMES - 1) or system mutex (FF_VOLUMES) */
-)
-{
-    chSemReset(&Mutex[vol], 0);
+  chSemReset(sobj, 0);
+  return TRUE;
 }
 
-
 /*------------------------------------------------------------------------*/
-/* Request a Grant to Access the Volume                                   */
+/* Request Grant to Access the Volume                                     */
 /*------------------------------------------------------------------------*/
-/* This function is called on enter file functions to lock the volume.
-/  When a 0 is returned, the file function fails with FR_TIMEOUT.
-*/
+int ff_req_grant(FF_SYNC_t sobj) {
 
-int ff_mutex_take (	/* Returns 1:Succeeded or 0:Timeout */
-    int vol			/* Mutex ID: Volume mutex (0 to FF_VOLUMES - 1) or system mutex (FF_VOLUMES) */
-)
-{
-    msg_t msg = chSemWaitTimeout(&Mutex[vol], (systime_t)FF_FS_TIMEOUT);
-    return msg == MSG_OK;
+  msg_t msg = chSemWaitTimeout(sobj, (systime_t)FF_FS_TIMEOUT);
+  return msg == MSG_OK;
 }
 
-
-
 /*------------------------------------------------------------------------*/
-/* Release a Grant to Access the Volume                                   */
+/* Release Grant to Access the Volume                                     */
 /*------------------------------------------------------------------------*/
-/* This function is called on leave file functions to unlock the volume.
-*/
+void ff_rel_grant(FF_SYNC_t sobj) {
 
-void ff_mutex_give (
-    int vol			/* Mutex ID: Volume mutex (0 to FF_VOLUMES - 1) or system mutex (FF_VOLUMES) */
-)
-{
-    chSemSignal(&Mutex[vol]);
+  chSemSignal(sobj);
+}
+#endif /* FF_FS_REENTRANT */
+
+#if FF_USE_LFN == 3	/* LFN with a working buffer on the heap */
+/*------------------------------------------------------------------------*/
+/* Allocate a memory block                                                */
+/*------------------------------------------------------------------------*/
+void *ff_memalloc(UINT size) {
+
+  return chHeapAlloc(NULL, size);
 }
 
-#endif	/* FF_FS_REENTRANT */
+/*------------------------------------------------------------------------*/
+/* Free a memory block                                                    */
+/*------------------------------------------------------------------------*/
+void ff_memfree(void *mblock) {
 
-// clang-format on
+  chHeapFree(mblock);
+}
+#endif /* FF_USE_LFN == 3 */
