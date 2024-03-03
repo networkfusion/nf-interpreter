@@ -26,4 +26,4 @@ struct NF_PAL_SPI
 ///////////////////////////////////////////
 extern NF_PAL_SPI SPI1_PAL;
 
-#endif //WIN_DEV_SPI_NATIVE_TARGET_H
+#endif // WIN_DEV_SPI_NATIVE_TARGET_H

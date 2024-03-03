@@ -24,4 +24,4 @@ typedef struct
 ///////////////////////////////////////////
 extern NF_PAL_I2C I2C1_PAL;
 
-#endif //SYS_DEV_I2C_NATIVE_TARGET_H
+#endif // SYS_DEV_I2C_NATIVE_TARGET_H

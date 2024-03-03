@@ -372,11 +372,10 @@ HRESULT Library_nf_device_can_native_nanoFramework_Device_Can_CanController::Nat
         // get config
         palCan->Configuration = {
             CAN_MCR_ABOM | CAN_MCR_AWUM | CAN_MCR_TXFP,
-            (uint32_t)(
-                CAN_BTR_SJW((uint8_t)pConfig[CanSettings::FIELD___syncJumpWidth].NumericByRef().u1) |
-                CAN_BTR_TS2((uint8_t)pConfig[CanSettings::FIELD___phaseSegment2].NumericByRef().u1) |
-                CAN_BTR_TS1((uint8_t)pConfig[CanSettings::FIELD___phaseSegment1].NumericByRef().u1) |
-                CAN_BTR_BRP((uint8_t)pConfig[CanSettings::FIELD___baudRatePrescaler].NumericByRef().u1))};
+            (uint32_t)(CAN_BTR_SJW((uint8_t)pConfig[CanSettings::FIELD___syncJumpWidth].NumericByRef().u1) |
+                       CAN_BTR_TS2((uint8_t)pConfig[CanSettings::FIELD___phaseSegment2].NumericByRef().u1) |
+                       CAN_BTR_TS1((uint8_t)pConfig[CanSettings::FIELD___phaseSegment1].NumericByRef().u1) |
+                       CAN_BTR_BRP((uint8_t)pConfig[CanSettings::FIELD___baudRatePrescaler].NumericByRef().u1))};
 
         // start CAN
         canStart(palCan->Driver, &palCan->Configuration);

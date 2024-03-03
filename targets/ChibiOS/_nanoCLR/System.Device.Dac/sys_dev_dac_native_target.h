@@ -58,4 +58,4 @@ extern NF_PAL_DAC Dac2_2_PAL;
 extern const NF_PAL_DAC_PORT_PIN_CHANNEL DacPortPinConfig[];
 extern const int DacChannelCount;
 
-#endif //SYS_DEV_DAC_NATIVE_TARGET_H
+#endif // SYS_DEV_DAC_NATIVE_TARGET_H
