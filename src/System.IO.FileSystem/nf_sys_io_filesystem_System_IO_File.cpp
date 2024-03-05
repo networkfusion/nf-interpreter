@@ -36,7 +36,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_File::ExistsNative___STATIC__BOOL
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // set filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path

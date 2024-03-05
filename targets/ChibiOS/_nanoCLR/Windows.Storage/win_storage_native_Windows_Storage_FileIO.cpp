@@ -12,6 +12,7 @@
 #if (HAL_USBH_USE_MSD == TRUE)
 #include "usbh/dev/msd.h"
 #endif
+
 #if (NF_FEATURE_USE_SPIFFS == TRUE)
 #include <hal_spiffs.h>
 #endif
@@ -71,7 +72,7 @@ static THD_FUNCTION(ReadTextWorkingThread, arg)
     FileOperation *fileIoOperation = (FileOperation *)arg;
 
     // need an extra one for the terminator
-    uint32_t readLength = fileIoOperation->ContentLength + 1;
+    CLR_UINT32 readLength = fileIoOperation->ContentLength + 1;
 
 #if ((HAL_USE_SDC == TRUE) || (HAL_USBH_USE_MSD == TRUE))
     if (fileIoOperation->FatFile != NULL)
@@ -220,7 +221,7 @@ static THD_FUNCTION(WriteBinaryWorkingThread, arg)
 #if ((HAL_USE_SDC == TRUE) || (HAL_USBH_USE_MSD == TRUE))
     if (fileIoOperation->FatFile != NULL)
     {
-        UINT bytesWritten;
+        CLR_UINT32 bytesWritten;
 
         FRESULT operationResult =
             f_write(fileIoOperation->FatFile, fileIoOperation->Content, fileIoOperation->ContentLength, &bytesWritten);
@@ -294,7 +295,7 @@ static THD_FUNCTION(ReadBinaryWorkingThread, arg)
 #if ((HAL_USE_SDC == TRUE) || (HAL_USBH_USE_MSD == TRUE))
     if (fileIoOperation->FatFile != NULL)
     {
-        UINT bytesRead;
+        CLR_UINT32 bytesRead;
 
         FRESULT operationResult =
             f_read(fileIoOperation->FatFile, fileIoOperation->Content, fileIoOperation->ContentLength, &bytesRead);

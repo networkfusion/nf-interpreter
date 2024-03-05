@@ -162,6 +162,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::ReadNative___I4__STRI
     FAULT_ON_NULL(fileName);
     FAULT_ON_NULL_ARG(pArray);
 
+    // set buffer memory
     buffer = pArray->GetFirstElement();
 
     // setup file path
@@ -174,7 +175,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::ReadNative___I4__STRI
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // clear filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path
@@ -211,7 +212,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::ReadNative___I4__STRI
             }
 
             // If there is not as much data to read as asked, shorten the length
-            if ((f_size(&file) - position) < length)
+            if ((f_size(&file) - position) < (uint32_t)length)
             {
                 length = f_size(&file) - position;
             }
@@ -237,7 +238,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::ReadNative___I4__STRI
 
     NANOCLR_CLEANUP();
 
-    // free buffer memory, if allocated
+    // free filepath memory, if allocated
     if (filePath != NULL)
     {
         platform_free(filePath);
@@ -268,8 +269,8 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::WriteNative___VOID__S
 
     buffer = pArray->GetFirstElement();
 
-    // setup file path
-    filePath = (char *)platform_malloc(FF_LFN_BUF + 1);
+    // setup file path memory
+    filePath = (char *) platform_malloc(FF_LFN_BUF + 1);
 
     // sanity check for successful malloc
     if (filePath == NULL)
@@ -278,7 +279,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::WriteNative___VOID__S
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // set filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path
@@ -335,7 +336,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::WriteNative___VOID__S
 
     NANOCLR_CLEANUP();
 
-    // free buffer memory, if allocated
+    // free filepath memory, if allocated
     if (filePath != NULL)
     {
         platform_free(filePath);
@@ -371,7 +372,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_FileStream::GetLengthNative___I8_
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // set filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path

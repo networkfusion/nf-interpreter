@@ -21,9 +21,11 @@
 #if (HAL_USE_SDC == TRUE)
 extern bool sdCardFileSystemReady;
 #endif
+
 #if (HAL_USBH_USE_MSD == TRUE)
 extern bool usbMsdFileSystemReady;
 #endif
+
 #if (NF_FEATURE_USE_SPIFFS == TRUE)
 extern bool spiffsFileSystemReady;
 #endif
@@ -417,7 +419,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
         {
             // allocate memory for buffers
             stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-            workingBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
+        #ifdef FF_FS_EXFAT
+            workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+        #else
+            workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
+        #endif
 
             // sanity check for successful malloc
             if (stringBuffer == NULL || workingBuffer == NULL)
@@ -743,7 +749,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                 {
                     // allocate memory for buffers
                     stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-                    workingBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
+                #ifdef FF_FS_EXFAT
+                    workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                #else
+                    workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
+                #endif
 
                     // sanity check for successful malloc
                     if (stringBuffer == NULL || workingBuffer == NULL)

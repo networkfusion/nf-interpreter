@@ -206,8 +206,10 @@ endif()
 option(USE_RNG "option to enable use of true random generator hardware block" ON)
 
 if(USE_RNG)
+    # set(HAL_USE_TRNG_OPTION TRUE CACHE INTERNAL "NF feature TRNG")
     message(STATUS "Random Number Generation by target MCU is activated")
 else()
+    # set(HAL_USE_TRNG_OPTION FALSE CACHE INTERNAL "NF feature TRNG")
     message(STATUS "Random Number Generation by target MCU **IS NOT** activated")
 endif()
 
@@ -516,13 +518,13 @@ endif()
 # for some APIs we need to enable the device in the HAL config
 # and/or manage other APIs that are required
 
-if( API_nanoFramework.Device.OneWire OR
-    API_System.IO.Ports)
+if( API_System.IO.Ports OR
+    API_nanoFramework.Device.OneWire ) # Onewire is currently dependent on UART
 
-    set(HAL_USE_UART_OPTION TRUE CACHE INTERNAL "HAL OneWire for nanoFramework.Device.OneWire")
+    set(HAL_USE_UART_OPTION TRUE CACHE INTERNAL "HAL_UART for System.IO.Ports")
 
 else()
-    set(HAL_USE_UART_OPTION FALSE CACHE INTERNAL "HAL OneWire for nanoFramework.Device.OneWire")
+    set(HAL_USE_UART_OPTION FALSE CACHE INTERNAL "HAL_UART for System.IO.Ports")
 endif()
 
 if(API_System.Net)
