@@ -420,9 +420,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
             // allocate memory for buffers
             stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
         #if (FF_FS_EXFAT == TRUE)
-            workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+            workingBuffer = (char *)platform_malloc((2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
         #else
-            workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
+            workingBuffer = (char *)platform_malloc(2 * FF_MAX_LFN + 1);
         #endif
 
             // sanity check for successful malloc
@@ -466,7 +466,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                         fileInfo.fname));
 
                     // clear working buffer
-                    memset(workingBuffer, 0, FF_LFN_BUF + 1);
+                #ifdef FF_FS_EXFAT
+                    memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                #else
+                    memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+                #endif
 
                     // compose directory path
                     CombinePath(workingBuffer, workingPath, fileInfo.fname);
@@ -631,7 +635,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
             // allocate memory for buffer, if not already done
             if (workingBuffer == NULL)
             {
-                workingBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
+            #ifdef FF_FS_EXFAT
+                workingBuffer = (char *)platform_malloc((2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
+            #else
+                workingBuffer = (char *)platform_malloc(2 * FF_MAX_LFN + 1);
+            #endif
 
                 // sanity check for successful malloc
                 if (workingBuffer == NULL)
@@ -665,7 +673,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                     (const char *)pe->name));
 
                 // clear working buffer
-                memset(workingBuffer, 0, FF_LFN_BUF + 1);
+            #ifdef FF_FS_EXFAT
+                memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+            #else
+                memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+            #endif
 
                 // compose file path
                 CombinePath(workingBuffer, workingPath, (const char *)pe->name);
@@ -803,7 +815,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                                     fileInfo.fname));
 
                                 // clear working buffer
-                                memset(workingBuffer, 0, FF_LFN_BUF + 1);
+                            #ifdef FF_FS_EXFAT
+                                memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                            #else
+                                memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+                            #endif
 
                                 // compose file path
                                 CombinePath(workingBuffer, workingPath, fileInfo.fname);
@@ -895,7 +911,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
     if (fileCount > 0)
     {
         // allocate memory for buffer
-        workingBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
+    #if (FF_FS_EXFAT == TRUE)
+        workingBuffer = (char *)platform_malloc((2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
+    #else
+        workingBuffer = (char *)platform_malloc(2 * FF_MAX_LFN + 1);
+    #endif
 
         // sanity check for successful malloc
         if (workingBuffer == NULL)
@@ -926,7 +946,11 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                 (const char *)pe->name));
 
             // clear working buffer
-            memset(workingBuffer, 0, FF_LFN_BUF + 1);
+        #ifdef FF_FS_EXFAT
+            memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+        #else
+            memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+        #endif
 
             // compose file path
             CombinePath(workingBuffer, workingPath, (const char *)pe->name);
@@ -1030,7 +1054,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // clear filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path
@@ -1263,7 +1287,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
         NANOCLR_SET_AND_LEAVE(CLR_E_OUT_OF_MEMORY);
     }
 
-    // clear working buffer
+    // clear filepath buffer
     memset(filePath, 0, FF_LFN_BUF + 1);
 
     // compose file path
