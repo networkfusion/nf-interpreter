@@ -467,9 +467,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
                     // clear working buffer
                 #ifdef FF_FS_EXFAT
-                    memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                    memset(workingBuffer, 0, (2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
                 #else
-                    memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+                    memset(workingBuffer, 0, 2 * FF_MAX_LFN + 1);
                 #endif
 
                     // compose directory path
@@ -674,9 +674,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
                 // clear working buffer
             #ifdef FF_FS_EXFAT
-                memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                memset(workingBuffer, 0, (2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
             #else
-                memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+                memset(workingBuffer, 0, 2 * FF_MAX_LFN + 1);
             #endif
 
                 // compose file path
@@ -762,9 +762,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                     // allocate memory for buffers
                     stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
                 #if (FF_FS_EXFAT == TRUE)
-                    workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                    workingBuffer = (char *)platform_malloc((2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
                 #else
-                    workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
+                    workingBuffer = (char *)platform_malloc(2 * FF_MAX_LFN + 1);
                 #endif
 
                     // sanity check for successful malloc
@@ -816,9 +816,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
                                 // clear working buffer
                             #ifdef FF_FS_EXFAT
-                                memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+                                memset(workingBuffer, 0, (2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
                             #else
-                                memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+                                memset(workingBuffer, 0, 2 * FF_MAX_LFN + 1);
                             #endif
 
                                 // compose file path
@@ -947,9 +947,9 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
             // clear working buffer
         #ifdef FF_FS_EXFAT
-            memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
+            memset(workingBuffer, 0, (2 * FF_MAX_LFN + 1) + ((FF_MAX_LFN + 44) / 15 * 32));
         #else
-            memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
+            memset(workingBuffer, 0, 2 * FF_MAX_LFN + 1);
         #endif
 
             // compose file path
