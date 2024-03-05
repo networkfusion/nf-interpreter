@@ -20,7 +20,7 @@
 #define HAL_USBH_DEVICE_ADDRESS_STABILIZATION    20
 #define HAL_USBH_CONTROL_REQUEST_DEFAULT_TIMEOUT OSAL_MS2I(1000)
 
-/* MSD */
+/* USB MSD */
 // this option is set at target_platform.h (from config file)
 // #define HAL_USBH_USE_MSD                              TRUE
 

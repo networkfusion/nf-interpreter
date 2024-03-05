@@ -635,6 +635,10 @@ else()
     set(NANOCLR_GRAPHICS FALSE CACHE INTERNAL "No Graphics Support")
 endif()
 
+
+#################################################################################
+#  Option to include the storage devices
+#################################################################################
 if(NF_FEATURE_HAS_SDCARD)
     set(HAL_USE_SDC_OPTION TRUE CACHE INTERNAL "HAL SDC for NF_FEATURE_HAS_SDCARD")
 else()
