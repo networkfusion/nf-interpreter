@@ -202,7 +202,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_Directory::GetFilesNative___STATI
         {
             // allocate memory for buffers
             stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-        #ifdef FF_FS_EXFAT
+        #if (FF_FS_EXFAT == TRUE)
             workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
         #else
             workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
@@ -238,7 +238,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_Directory::GetFilesNative___STATI
                     strcmp(get_filename_ext(fileInfo.fname), "sys"))
                 {
                     // clear working buffer
-                #ifdef FF_FS_EXFAT
+                #if (FF_FS_EXFAT == TRUE)
                     memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
                 #else
                     memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);
@@ -344,7 +344,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_Directory::GetDirectoriesNative__
         {
             // allocate memory for buffers
             stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-            #ifdef FF_FS_EXFAT
+            #if (FF_FS_EXFAT == TRUE)
             workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
             #else
             workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
@@ -379,7 +379,7 @@ HRESULT Library_nf_sys_io_filesystem_System_IO_Directory::GetDirectoriesNative__
                 if ((fileInfo.fattrib & AM_DIR) && !(fileInfo.fattrib & AM_SYS) && !(fileInfo.fattrib & AM_HID))
                 {
                     // clear working buffer
-                #ifdef FF_FS_EXFAT
+                #if (FF_FS_EXFAT == TRUE)
                     memset(workingBuffer, 0, (2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
                 #else
                     memset(workingBuffer, 0, 2 * FF_LFN_BUF + 1);

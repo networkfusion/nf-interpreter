@@ -419,7 +419,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
         {
             // allocate memory for buffers
             stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-        #ifdef FF_FS_EXFAT
+        #if (FF_FS_EXFAT == TRUE)
             workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
         #else
             workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
@@ -749,7 +749,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
                 {
                     // allocate memory for buffers
                     stringBuffer = (char *)platform_malloc(FF_LFN_BUF + 1);
-                #ifdef FF_FS_EXFAT
+                #if (FF_FS_EXFAT == TRUE)
                     workingBuffer = (char *)platform_malloc((2 * FF_LFN_BUF + 1) + ((FF_LFN_BUF + 44) / 15 * 32));
                 #else
                     workingBuffer = (char *)platform_malloc(2 * FF_LFN_BUF + 1);
