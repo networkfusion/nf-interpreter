@@ -107,7 +107,7 @@ void SdcardInsertHandler(eventid_t id)
         return;
     }
 
-    err = f_mount(&sdCard_FS, SD_CARD_DRIVE_INDEX, 1);
+    err = f_mount(&sdCard_FS, SD_CARD_VOLUME_INDEX, 1);
 
     if (err != FR_OK)
     {
@@ -121,7 +121,7 @@ void SdcardInsertHandler(eventid_t id)
         sdCardFileSystemReady = true;
 
         // post event to managed app
-        PostManagedEvent(EVENT_STORAGE, 0, StorageEventType_RemovableDeviceInsertion, SD_CARD_DRIVE_INDEX_NUMERIC);
+        PostManagedEvent(EVENT_STORAGE, 0, StorageEventType_RemovableDeviceInsertion, SD_CARD_VOLUME_INDEX_NUMERIC);
     }
 }
 
@@ -135,7 +135,7 @@ void SdCardRemoveHandler(eventid_t id)
     sdCardFileSystemReady = false;
 
     // post event to managed app
-    PostManagedEvent(EVENT_STORAGE, 0, StorageEventType_RemovableDeviceRemoval, SD_CARD_DRIVE_INDEX_NUMERIC);
+    PostManagedEvent(EVENT_STORAGE, 0, StorageEventType_RemovableDeviceRemoval, SD_CARD_VOLUME_INDEX_NUMERIC);
 }
 
 __attribute__((noreturn)) void SdCardWorkingThread(void const *argument)
@@ -221,7 +221,7 @@ __attribute__((noreturn)) void UsbMsdWorkingThread(void const *argument)
             {
                 // USB MSD file system not ready
                 // mount drive
-                err = f_mount(&usbMsd_FS, USB_MSD_DRIVE_INDEX, 1);
+                err = f_mount(&usbMsd_FS, USB_MSD_VOLUME_INDEX , 1);
 
                 if (err != FR_OK)
                 {
@@ -237,7 +237,7 @@ __attribute__((noreturn)) void UsbMsdWorkingThread(void const *argument)
                         EVENT_STORAGE,
                         0,
                         StorageEventType_RemovableDeviceInsertion,
-                        USB_MSD_DRIVE_INDEX_NUMERIC);
+                        USB_MSD_VOLUME_INDEX _NUMERIC);
                 }
             }
         }
@@ -253,7 +253,7 @@ __attribute__((noreturn)) void UsbMsdWorkingThread(void const *argument)
                     EVENT_STORAGE,
                     0,
                     StorageEventType_RemovableDeviceRemoval,
-                    USB_MSD_DRIVE_INDEX_NUMERIC);
+                    USB_MSD_VOLUME_INDEX _NUMERIC);
             }
         }
 

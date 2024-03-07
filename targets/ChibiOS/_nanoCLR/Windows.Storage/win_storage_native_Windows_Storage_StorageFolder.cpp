@@ -140,7 +140,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
 #if HAL_USE_SDC
             // SD card has index 0
-            if (driveIterator == SD_CARD_DRIVE_INDEX_NUMERIC)
+            if (driveIterator == SD_CARD_VOLUME_INDEX_NUMERIC)
             {
                 // is the SD card file system ready?
                 if (sdCardFileSystemReady)
@@ -157,7 +157,7 @@ HRESULT Library_win_storage_native_Windows_Storage_StorageFolder::
 
 #if HAL_USBH_USE_MSD
             // USB MSD has index 0 or 1, depending on the us of SD card
-            if (driveIterator == USB_MSD_DRIVE_INDEX_NUMERIC)
+            if (driveIterator == USB_MSD_VOLUME_INDEX _NUMERIC)
             {
                 // is the USB mass storage device file system ready?
                 if (usbMsdFileSystemReady)

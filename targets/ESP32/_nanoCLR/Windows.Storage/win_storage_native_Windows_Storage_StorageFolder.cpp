@@ -12,7 +12,7 @@
 #if (HAL_USE_SDC == TRUE) || (HAL_USBH_USE_MSD == TRUE)
 #include <ff.h>
 #else
-// use copy of FATFS define ANSI/OEM at DBCS
+// use copy of FATFS define for UTF8 at DBCS
 #define FF_LFN_BUF 765
 #endif
 
