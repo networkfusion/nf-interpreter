@@ -141,7 +141,7 @@
 #define FF_LFN_BUF 765
 #define FF_SFN_BUF 34
 /* This set of options defines size of file name members in the FILINFO structure
-/  which is used to read out directory items. These values should be suffcient for
+/  which is used to read out directory items. These values should be sufficient for
 /  the file names to read. The maximum possible length of the read file name depends
 /  on character encoding. When LFN is not enabled, these options have no effect. */
 
@@ -213,7 +213,7 @@
 /  Instead of private sector buffer eliminated from the file object, common sector
 /  buffer in the filesystem object (FATFS) is used for the file data transfer. */
 
-#define FF_FS_EXFAT 1
+#define FF_FS_EXFAT 0
 /* This option switches support for exFAT filesystem. (0:Disable or 1:Enable)
 /  To enable exFAT, also LFN needs to be enabled. (FF_USE_LFN >= 1)
 /  Note that enabling exFAT discards ANSI C (C89) compatibility. */
